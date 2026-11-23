@@ -94,7 +94,7 @@ def smoothstep(t: float) -> float:
     return t * t * (3.0 - 2.0 * t)
 
 
-def get_audio_duration(audio_path: Optional[str] = None) -> float:
+def get_audio_duration(audio_path=None) -> float:
     if not audio_path or not os.path.exists(audio_path):
         return 60.0
     ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
