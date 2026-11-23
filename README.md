@@ -16,4 +16,5 @@ pip install -r requirements.txt
 python app.py
 ```
 
-จากนั้นเปิดเบราว์เซอร์ไปที่ **`http://127.0.0.1:8000`**
+จากนั้นเปิดเบราว์เซอร์ไปที่ **`https://vid-maker-eight.vercel.app/`** 
+
