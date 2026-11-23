@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ระบบตัดต่อวิดีโอจากรูปภาพ + AI แนะนำ Transition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-light: #eff6ff;
+      --ai: #7c3aed;
+      --ai-light: #f5f3ff;
+      --green: #16a34a;
+      --text: #0f172a;
+      --muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Prompt', 'Leelawadee UI', Tahoma, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .logo-wrap h1 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .logo-wrap p {
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+
+    .btn {
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-ai {
+      background: linear-gradient(135deg, #7c3aed, #db2777);
+      color: #fff;
+    }
+    .btn-ai:hover {
+      opacity: 0.94;
+    }
+
+    .btn-green {
+      background: var(--green);
+      color: #fff;
+    }
+    .btn-green:hover {
+      background: #15803d;
+    }
+
+    .btn-light {
+      background: #f8fafc;
+      border-color: var(--border);
+      color: #334155;
+    }
+    .btn-light:hover {
+      background: #e2e8f0;
+    }
+
+    .layout {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 1050px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .box-header h2 {
+      font-size: 16.5px;
+      font-weight: 700;
+    }
+
+    /* Big Clean Insert Box */
+    .insert-dropzone {
+      border: 2px dashed #93c5fd;
+      background: var(--primary-light);
+      border-radius: 14px;
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .insert-dropzone:hover, .insert-dropzone.dragover {
+      border-color: var(--primary);
+      background: #dbeafe;
+    }
+
+    .insert-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Inserted Photos List */
+    .photos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+      gap: 14px;
+    }
+
+    .photo-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+
+    .photo-thumb {
+      position: relative;
+      width: 100%;
+      height: 136px;
+      background: #0f172a;
+      cursor: pointer;
+    }
+
+    .photo-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .num-pill {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(15, 23, 42, 0.85);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 999px;
+    }
+
+    .del-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(220, 38, 38, 0.9);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .photo-controls {
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .photo-controls label {
+      font-size: 11.5px;
+      color: var(--muted);
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    select, input[type="text"] {
+      font-family: inherit;
+      font-size: 13px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      color: var(--text);
+      width: 100%;
+    }
+
+    .ai-tag {
+      font-size: 11.5px;
+      background: var(--ai-light);
+      color: #5b21b6;
+      border: 1px solid #ddd6fe;
+      padding: 5px 8px;
+      border-radius: 7px;
+      line-height: 1.35;
+    }
+
+    /* AI Mode Bar */
+    .ai-modes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .ai-mode-btn {
+      font-family: inherit;
+      text-align: left;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      background: #f8fafc;
+      cursor: pointer;
+    }
+    .ai-mode-btn.active {
+      border-color: var(--ai);
+      background: var(--ai-light);
+    }
+    .ai-mode-btn strong {
+      font-size: 13.5px;
+      display: block;
+      color: var(--text);
+    }
+    .ai-mode-btn span {
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+
+    /* Preview Player */
+    .player-box {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #0f172a;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    #previewCanvas, #renderedVideo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    #renderedVideo {
+      display: none;
+    }
+
+    .status-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(15, 23, 42, 0.8);
+      color: #fff;
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    /* Modal */
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 16px;
+    }
+    .modal-bg.open {
+      display: flex;
+    }
+    .modal-box {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 480px;
+      width: 100%;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .bar-bg {
+      width: 100%;
+      height: 14px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      transition: width 0.25s;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hidden file inputs -->
+  <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="onSelectPhotos(this.files)" />
+  <input type="file" id="audioInput" accept="audio/*" style="display:none" onchange="onSelectAudio(this.files)" />
+
+  <header>
+    <div class="logo-wrap">
+      <div class="logo-icon">🎬</div>
+      <div>
+        <h1>ระบบสร้างวิดีโอพร้อม AI แนะนำ Transition</h1>
+        <p>เลือกรูปภาพที่ต้องการใช้ • เลือกเอฟเฟกต์เปลี่ยนภาพแต่ละรูป (หรือให้ AI แนะนำ) • สร้างไฟล์วิดีโอ MP4</p>
+      </div>
+    </div>
+    <div style="display:flex; gap:10px;">
+      <button class="btn btn-primary" onclick="document.getElementById('photoInput').click()">
+        ＋ เลือกรูปภาพที่จะใช้
+      </button>
+      <button class="btn btn-ai" onclick="applyAI()">
+        ✨ ให้ AI แนะนำ Transition
+      </button>
+      <button class="btn btn-green" onclick="renderMP4()">
+        🎬 สร้างวิดีโอ MP4
+      </button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- Left Column: Insert Photos & Choose Transitions -->
+    <div style="display:flex; flex-direction:column; gap:20px;">
+
+      <!-- 1. Insert Photos Box -->
+      <section class="box">
+        <div class="box-header">
+          <h2>1. รูปภาพในวิดีโอ (<span id="photoCount">0</span> รูป)</h2>
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-primary" onclick="document.getElementById('photoInput').click()">
+              ＋ กดเลือกรูปภาพเพิ่ม
+            </button>
+            <button id="clearBtn" class="btn btn-light" style="display:none;" onclick="clearPhotos()">
+              ล้างทั้งหมด
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty Dropzone / Insert Button -->
+        <div id="dropzone" class="insert-dropzone" onclick="document.getElementById('photoInput').click()">
+          <div class="insert-icon">＋</div>
+          <div style="font-size:16px; font-weight:700; color:var(--primary);">คลิกที่นี่เพื่อเลือกรูปภาพที่ต้องการใช้</div>
+          <div style="font-size:13px; color:var(--muted);">สามารถเลือกทีเดียวหลายรูป หรือลากไฟล์รูปมาวางในกรอบนี้ได้เลย</div>
+        </div>
+
+        <!-- Grid of inserted photos (hidden when empty) -->
+        <div id="photosGrid" class="photos-grid" style="display:none;"></div>
+      </section>
+
+      <!-- 2. AI Recommendation Mode -->
+      <section class="box">
+        <div class="box-header">
+          <h2>2. โหมด AI แนะนำ Transition ให้แต่ละรูป</h2>
+        </div>
+
+        <div class="ai-modes">
+          <button class="ai-mode-btn active" onclick="pickAIMode('smart_auto', this)">
+            <strong>🌟 AI วิเคราะห์อัตโนมัติ (แนะนำ)</strong>
+            <span>วิเคราะห์สีและสัดส่วนของแต่ละรูปคู่กับจังหวะเพลง</span>
+          </button>
+          <button class="ai-mode-btn" onclick="pickAIMode('dignified', this)">
+            <strong>🏛️ นุ่มนวล สุภาพ</strong>
+            <span>เน้นละลายภาพ (Crossfade) และซูมช้าๆ (Ken Burns)</span>
+          </button>
+          <button class="ai-mode-btn" onclick="pickAIMode('upbeat_march', this)">
+            <strong>🥁 คึกคัก สดใส</strong>
+            <span>เน้นสไลด์ภาพ ซูมเข้า และแสงแฟลชตามจังหวะเพลง</span>
+          </button>
+          <button class="ai-mode-btn" onclick="pickAIMode('variety', this)">
+            <strong>🎨 หลากหลายไม่ซ้ำกัน</strong>
+            <span>สลับเอฟเฟกต์ทั้ง 11 รูปแบบให้ครบตลอดคลิป</span>
+          </button>
+        </div>
+
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; background:var(--ai-light); padding:12px 14px; border-radius:10px; border:1px solid #ddd6fe;">
+          <span id="aiStatusText" style="font-size:13px; color:#5b21b6;">
+            กดปุ่มเพื่อให้ AI เลือก Transition ที่เหมาะสมที่สุดให้รูปทุกรูปที่คุณใส่ไว้
+          </span>
+          <button class="btn btn-ai" onclick="applyAI()">
+            ✨ ให้ AI ตั้งค่าให้ทุกรูป
+          </button>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:13px; color:var(--muted);">หรือตั้งค่าทุกรูปเป็นแบบเดียวกัน:</span>
+          <select id="bulkTransitionSelect" style="max-width:250px;"></select>
+          <button class="btn btn-light" onclick="applyBulkTransition()">ใช้กับทุกรูป</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Right Column: Video Preview, Audio & Optional Text -->
+    <div style="display:flex; flex-direction:column; gap:20px; position:sticky; top:84px;">
+      <section class="box">
+        <div class="box-header">
+          <h2>3. ดูตัวอย่างวิดีโอ & สร้างไฟล์ MP4</h2>
+        </div>
+
+        <div class="player-box">
+          <canvas id="previewCanvas" width="1920" height="1080"></canvas>
+          <video id="renderedVideo" controls></video>
+          <div id="statusBadge" class="status-badge">ยังไม่ได้เลือกรูปภาพ</div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span id="timeLabel" style="font-size:12.5px; font-weight:600; color:var(--primary); min-width:88px;">00:00 / 03:18</span>
+          <input type="range" id="scrubber" min="0" max="198.86" step="0.05" value="0"
+                 style="flex:1; accent-color:var(--primary); cursor:pointer;"
+                 oninput="seekTo(this.value)" />
+        </div>
+
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <button id="playBtn" class="btn btn-primary" onclick="togglePlay()">▶ เล่นตัวอย่างพร้อมเพลง</button>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:12.5px; color:var(--muted);" id="audioNameText">🎵 เพลงมาร์ช อสม.mp3</span>
+            <button class="btn btn-light" style="padding:6px 10px; font-size:12px;" onclick="document.getElementById('audioInput').click()">
+              เปลี่ยนเพลง MP3
+            </button>
+          </div>
+        </div>
+
+        <!-- Collapsible Optional Text & Subtitles -->
+        <details style="border:1px solid var(--border); border-radius:10px; padding:10px 14px; background:#f8fafc;">
+          <summary style="font-size:13.5px; font-weight:600; cursor:pointer; color:#334155;">
+            ⚙️ ตั้งค่าข้อความเปิดคลิป / ท้ายคลิป / ซับไตเติ้ลเนื้อร้อง (คลิกเพื่อเปิด/ปิด)
+          </summary>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:12px;">
+            <label style="font-size:13px; display:flex; align-items:center; gap:6px;">
+              <input type="checkbox" id="subEnabled" checked onchange="drawFrame(CURRENT_TIME)" />
+              แสดงซับไตเติ้ลเนื้อร้องเพลงมาร์ช อสม.
+            </label>
+            <div style="display:flex; flex-direction:column; gap:5px;">
+              <label style="font-size:12px; font-weight:600; color:var(--primary);">
+                <input type="checkbox" id="introEnabled" checked onchange="syncBanners()" /> ข้อความเปิดคลิป (5 วินาทีแรก)
+              </label>
+              <input type="text" id="intro1" oninput="syncBanners()" />
+              <input type="text" id="intro2" oninput="syncBanners()" />
+              <input type="text" id="intro3" oninput="syncBanners()" />
+            </div>
+            <div style="display:flex; flex-direction:column; gap:5px;">
+              <label style="font-size:12px; font-weight:600; color:var(--primary);">
+                <input type="checkbox" id="outroEnabled" checked onchange="syncBanners()" /> ข้อความขอบคุณท้ายคลิป
+              </label>
+              <input type="text" id="outro1" oninput="syncBanners()" />
+              <input type="text" id="outro2" oninput="syncBanners()" />
+              <input type="text" id="outro3" oninput="syncBanners()" />
+            </div>
+          </div>
+        </details>
+
+        <button class="btn btn-green" style="width:100%; font-size:15.5px; padding:13px;" onclick="renderMP4()">
+          🎬 สร้างและดาวน์โหลดวิดีโอ MP4 (Full HD)
+        </button>
+      </section>
+    </div>
+  </main>
+
+  <!-- Render Progress Modal -->
+  <div id="renderModal" class="modal-bg">
+    <div class="modal-box">
+      <h3 style="font-size:17px;">🎬 กำลังสร้างไฟล์วิดีโอ MP4</h3>
+      <p id="renderMsg" style="font-size:13.5px; color:var(--muted);">กำลังประมวลผล...</p>
+      <div class="bar-bg"><div id="renderBar" class="bar-fill"></div></div>
+      <div style="display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted);">
+        <span id="renderPct">0%</span>
+        <span id="renderElapsed">0.0 วินาที</span>
+      </div>
+      <div id="renderDoneBtns" style="display:none; justify-content:flex-end; gap:8px; margin-top:6px;">
+        <button class="btn btn-light" onclick="document.getElementById('renderModal').classList.remove('open')">ปิด</button>
+        <a id="downloadLink" class="btn btn-green" href="/output/วิดีโอ_เพลงมาร์ช_อสม.mp4" download>⬇ ดาวน์โหลดวิดีโอ MP4</a>
+      </div>
+    </div>
+  </div>
+
+  <audio id="bgAudio" src="/audio" preload="auto"></audio>
+
+  <script>
+    let PROJECT = null;
+    let PHOTOS = []; // Simple flat list of user-inserted photos
+    let AI_MODE = 'smart_auto';
+    let CURRENT_TIME = 0.0;
+    let IS_PLAYING = false;
+    let TEST_ANIM = null;
+
+    const IMG_CACHE = new Map();
+    const canvas = document.getElementById('previewCanvas');
+    const ctx = canvas.getContext('2d');
+    const audioEl = document.getElementById('bgAudio');
+
+    function fmt(sec) {
+      sec = Math.max(0, Number(sec) || 0);
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function smooth(t) {
+      t = Math.max(0, Math.min(1, t));
+      return t * t * (3 - 2 * t);
+    }
+
+    async function init() {
+      const res = await fetch('/api/project');
+      PROJECT = await res.json();
+
+      document.getElementById('scrubber').max = PROJECT.duration;
+      document.getElementById('audioNameText').textContent = `🎵 ${PROJECT.audio_name}`;
+
+      const bulkSel = document.getElementById('bulkTransitionSelect');
+      bulkSel.innerHTML = PROJECT.transitions_catalog
+        .map(t => `<option value="${t.id}">${t.name}</option>`)
+        .join('');
+
+      document.getElementById('introEnabled').checked = PROJECT.intro.enabled;
+      document.getElementById('intro1').value = PROJECT.intro.line1;
+      document.getElementById('intro2').value = PROJECT.intro.line2;
+      document.getElementById('intro3').value = PROJECT.intro.line3;
+
+      document.getElementById('outroEnabled').checked = PROJECT.outro.enabled;
+      document.getElementById('outro1').value = PROJECT.outro.line1;
+      document.getElementById('outro2').value = PROJECT.outro.line2;
+      document.getElementById('outro3').value = PROJECT.outro.line3;
+
+      // Drag and drop on dropzone
+      const dz = document.getElementById('dropzone');
+      dz.ondragover = (e) => { e.preventDefault(); dz.classList.add('dragover'); };
+      dz.ondragleave = () => dz.classList.remove('dragover');
+      dz.ondrop = (e) => {
+        e.preventDefault();
+        dz.classList.remove('dragover');
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          onSelectPhotos(e.dataTransfer.files);
+        }
+      };
+
+      renderPhotosList();
+      drawFrame(0);
+      requestAnimationFrame(loop);
+    }
+
+    function loadImg(url) {
+      if (!url || IMG_CACHE.has(url)) return;
+      const im = new Image();
+      im.onload = () => {
+        IMG_CACHE.set(url, im);
+        drawFrame(CURRENT_TIME);
+      };
+      im.src = url;
+    }
+
+    async function onSelectPhotos(fileList) {
+      if (!fileList || fileList.length === 0) return;
+      const fd = new FormData();
+      for (const f of fileList) fd.append('files', f);
+
+      const res = await fetch('/api/upload-images', { method: 'POST', body: fd });
+      if (!res.ok) {
+        alert('อัปโหลดรูปภาพไม่สำเร็จ');
+        return;
+      }
+      const data = await res.json();
+      data.uploaded.forEach(item => {
+        PHOTOS.push(item);
+        loadImg(item.url);
+      });
+      document.getElementById('photoInput').value = '';
+      renderPhotosList();
+      drawFrame(CURRENT_TIME);
+    }
+
+    async function onSelectAudio(fileList) {
+      if (!fileList || fileList.length === 0) return;
+      const fd = new FormData();
+      fd.append('file', fileList[0]);
+      const res = await fetch('/api/upload-audio', { method: 'POST', body: fd });
+      if (!res.ok) return;
+      const data = await res.json();
+      PROJECT.duration = data.duration;
+      PROJECT.audio_url = data.audio_url;
+      audioEl.src = data.audio_url;
+      document.getElementById('scrubber').max = data.duration;
+      document.getElementById('audioNameText').textContent = `🎵 ${data.audio_name}`;
+      drawFrame(CURRENT_TIME);
+    }
+
+    function renderPhotosList() {
+      document.getElementById('photoCount').textContent = PHOTOS.length;
+      const grid = document.getElementById('photosGrid');
+      const clearBtn = document.getElementById('clearBtn');
+
+      if (PHOTOS.length === 0) {
+        grid.style.display = 'none';
+        clearBtn.style.display = 'none';
+        return;
+      }
+
+      grid.style.display = 'grid';
+      clearBtn.style.display = 'inline-flex';
+      grid.innerHTML = '';
+
+      const secPerImg = PROJECT.duration / PHOTOS.length;
+
+      PHOTOS.forEach((p, idx) => {
+        const card = document.createElement('div');
+        card.className = 'photo-item';
+        const opts = PROJECT.transitions_catalog
+          .map(t => `<option value="${t.id}" ${p.transition === t.id ? 'selected' : ''}>${t.name}</option>`)
+          .join('');
+
+        card.innerHTML = `
+          <div class="photo-thumb" onclick="seekTo(${idx * secPerImg + 0.1})">
+            <img src="${p.url}" alt="" />
+            <span class="num-pill">รูปที่ ${idx + 1}</span>
+            <button class="del-btn" title="ลบรูปนี้" onclick="event.stopPropagation(); removePhoto(${idx});">✕</button>
+          </div>
+          <div class="photo-controls">
+            <label>
+              <span>Transition เปลี่ยนภาพ:</span>
+              <a href="javascript:void(0)" style="color:var(--primary); text-decoration:none;" onclick="testSingleTransition(${idx})">▶ ดูตัวอย่าง</a>
+            </label>
+            <select onchange="changeTransition(${idx}, this.value)">${opts}</select>
+            ${p.ai_reason ? `<div class="ai-tag">✨ ${p.ai_reason}</div>` : ''}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function removePhoto(idx) {
+      PHOTOS.splice(idx, 1);
+      renderPhotosList();
+      drawFrame(CURRENT_TIME);
+    }
+
+    function clearPhotos() {
+      PHOTOS = [];
+      TEST_ANIM = null;
+      renderPhotosList();
+      drawFrame(0);
+    }
+
+    function changeTransition(idx, transId) {
+      PHOTOS[idx].transition = transId;
+      testSingleTransition(idx);
+    }
+
+    function applyBulkTransition() {
+      const val = document.getElementById('bulkTransitionSelect').value;
+      PHOTOS.forEach(p => p.transition = val);
+      renderPhotosList();
+    }
+
+    function pickAIMode(mode, btn) {
+      AI_MODE = mode;
+      document.querySelectorAll('.ai-mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    async function applyAI() {
+      if (PHOTOS.length === 0) {
+        alert('กรุณากดเลือกรูปภาพอย่างน้อย 1–2 รูปก่อนให้ AI แนะนำครับ');
+        return;
+      }
+      document.getElementById('aiStatusText').textContent = '⏳ AI กำลังวิเคราะห์รูปภาพ...';
+      const res = await fetch('/api/ai-recommend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: AI_MODE, images: PHOTOS }),
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      const map = new Map(data.recommendations.map(r => [r.id, r]));
+      PHOTOS.forEach(p => {
+        const rec = map.get(p.id);
+        if (rec) {
+          p.transition = rec.transition;
+          p.fade_duration = rec.fade_duration;
+          p.ai_reason = rec.reason;
+        }
+      });
+      document.getElementById('aiStatusText').textContent =
+        `✅ AI เลือก Transition ให้ครบทั้ง ${PHOTOS.length} รูปเรียบร้อยแล้ว!`;
+      renderPhotosList();
+      testSingleTransition(0);
+    }
+
+    function syncBanners() {
+      PROJECT.intro.enabled = document.getElementById('introEnabled').checked;
+      PROJECT.intro.line1 = document.getElementById('intro1').value;
+      PROJECT.intro.line2 = document.getElementById('intro2').value;
+      PROJECT.intro.line3 = document.getElementById('intro3').value;
+
+      PROJECT.outro.enabled = document.getElementById('outroEnabled').checked;
+      PROJECT.outro.line1 = document.getElementById('outro1').value;
+      PROJECT.outro.line2 = document.getElementById('outro2').value;
+      PROJECT.outro.line3 = document.getElementById('outro3').value;
+      drawFrame(CURRENT_TIME);
+    }
+
+    function togglePlay() {
+      if (PHOTOS.length === 0) {
+        alert('กรุณาเลือกรูปภาพก่อนกดเล่นตัวอย่างครับ');
+        return;
+      }
+      TEST_ANIM = null;
+      if (IS_PLAYING) {
+        IS_PLAYING = false;
+        audioEl.pause();
+        document.getElementById('playBtn').textContent = '▶ เล่นตัวอย่างพร้อมเพลง';
+      } else {
+        IS_PLAYING = true;
+        audioEl.currentTime = CURRENT_TIME;
+        audioEl.play().catch(() => {});
+        document.getElementById('playBtn').textContent = '⏸ หยุดเล่น';
+      }
+    }
+
+    function seekTo(val) {
+      TEST_ANIM = null;
+      CURRENT_TIME = Math.max(0, Math.min(PROJECT.duration, Number(val) || 0));
+      document.getElementById('scrubber').value = CURRENT_TIME;
+      audioEl.currentTime = CURRENT_TIME;
+      drawFrame(CURRENT_TIME);
+    }
+
+    function testSingleTransition(idx) {
+      if (PHOTOS.length === 0) return;
+      if (IS_PLAYING) togglePlay();
+      const nextIdx = Math.min(PHOTOS.length - 1, idx + 1);
+      TEST_ANIM = {
+        startMs: performance.now(),
+        durMs: 1200,
+        from: PHOTOS[idx],
+        to: PHOTOS[nextIdx],
+        type: PHOTOS[idx].transition,
+      };
+    }
+
+    function drawSinglePhoto(im, zoom = 1.0) {
+      const W = 1920, H = 1080;
+      if (!im) {
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(0, 0, W, H);
+        return;
+      }
+      const iw = im.naturalWidth || 1080, ih = im.naturalHeight || 1080;
+      ctx.save();
+      const bgS = Math.max(W / iw, H / ih) * 1.05;
+      ctx.filter = 'blur(26px) brightness(0.45)';
+      ctx.drawImage(im, (W - iw * bgS) / 2, (H - ih * bgS) / 2, iw * bgS, ih * bgS);
+      ctx.filter = 'none';
+
+      const fgS = Math.min(W / iw, H / ih) * zoom;
+      ctx.drawImage(im, (W - iw * fgS) / 2, (H - ih * fgS) / 2, iw * fgS, ih * fgS);
+      ctx.restore();
+    }
+
+    function renderTrans(itemA, itemB, prog, type) {
+      const W = 1920, H = 1080;
+      const imA = itemA ? IMG_CACHE.get(itemA.url) : null;
+      const imB = itemB ? IMG_CACHE.get(itemB.url) : null;
+      const p = smooth(prog);
+
+      if (prog <= 0.001 || !imB) { drawSinglePhoto(imA); return; }
+      if (prog >= 0.999) { drawSinglePhoto(imB); return; }
+
+      if (type === 'cut') {
+        drawSinglePhoto(prog < 0.5 ? imA : imB);
+      } else if (type === 'crossfade') {
+        drawSinglePhoto(imA);
+        ctx.save(); ctx.globalAlpha = p; drawSinglePhoto(imB); ctx.restore();
+      } else if (type === 'ken_burns') {
+        drawSinglePhoto(imA, 1 + 0.08 * p);
+        ctx.save(); ctx.globalAlpha = p; drawSinglePhoto(imB, 1.06 - 0.06 * p); ctx.restore();
+      } else if (type === 'slide_left') {
+        const off = W * p;
+        ctx.save(); ctx.translate(-off, 0); drawSinglePhoto(imA); ctx.restore();
+        ctx.save(); ctx.translate(W - off, 0); drawSinglePhoto(imB); ctx.restore();
+      } else if (type === 'slide_right') {
+        const off = W * p;
+        ctx.save(); ctx.translate(off, 0); drawSinglePhoto(imA); ctx.restore();
+        ctx.save(); ctx.translate(off - W, 0); drawSinglePhoto(imB); ctx.restore();
+      } else if (type === 'slide_up') {
+        const off = H * p;
+        ctx.save(); ctx.translate(0, -off); drawSinglePhoto(imA); ctx.restore();
+        ctx.save(); ctx.translate(0, H - off); drawSinglePhoto(imB); ctx.restore();
+      } else if (type === 'wipe_left') {
+        drawSinglePhoto(imA);
+        ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W * p, H); ctx.clip(); drawSinglePhoto(imB); ctx.restore();
+      } else if (type === 'circle_open') {
+        drawSinglePhoto(imA);
+        ctx.save(); ctx.beginPath(); ctx.arc(W / 2, H / 2, Math.hypot(W / 2, H / 2) * p, 0, Math.PI * 2); ctx.clip(); drawSinglePhoto(imB); ctx.restore();
+      } else if (type === 'zoom_in') {
+        drawSinglePhoto(imA, 1 + 0.25 * p);
+        ctx.save(); ctx.globalAlpha = p; drawSinglePhoto(imB); ctx.restore();
+      } else if (type === 'zoom_out') {
+        drawSinglePhoto(imA);
+        ctx.save(); ctx.globalAlpha = p; drawSinglePhoto(imB, 1 + 0.25 * (1 - p)); ctx.restore();
+      } else if (type === 'fade_black') {
+        if (p < 0.5) { drawSinglePhoto(imA); ctx.fillStyle = `rgba(0,0,0,${p * 2})`; ctx.fillRect(0, 0, W, H); }
+        else { drawSinglePhoto(imB); ctx.fillStyle = `rgba(0,0,0,${(1 - p) * 2})`; ctx.fillRect(0, 0, W, H); }
+      } else if (type === 'flash_white') {
+        if (p < 0.5) { drawSinglePhoto(imA); ctx.fillStyle = `rgba(255,255,255,${p * 2})`; ctx.fillRect(0, 0, W, H); }
+        else { drawSinglePhoto(imB); ctx.fillStyle = `rgba(255,255,255,${(1 - p) * 2})`; ctx.fillRect(0, 0, W, H); }
+      } else {
+        drawSinglePhoto(imA);
+      }
+    }
+
+    function drawCard(l1, l2, l3) {
+      ctx.save();
+      ctx.fillStyle = 'rgba(14, 25, 45, 0.85)';
+      ctx.strokeStyle = 'rgba(255, 200, 70, 0.95)';
+      ctx.lineWidth = 3.5;
+      ctx.beginPath(); ctx.roundRect(110, 742, 1700, 296, 26); ctx.fill(); ctx.stroke();
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = '700 44px "Prompt", sans-serif'; ctx.fillStyle = '#ffc846'; ctx.fillText(l1 || '', 960, 815);
+      ctx.font = '600 40px "Prompt", sans-serif'; ctx.fillStyle = '#ffffff'; ctx.fillText(l2 || '', 960, 885);
+      ctx.font = '600 36px "Prompt", sans-serif'; ctx.fillStyle = '#a8e6ff'; ctx.fillText(l3 || '', 960, 955);
+      ctx.restore();
+    }
+
+    function drawFrame(sec) {
+      if (!PROJECT) return;
+      document.getElementById('timeLabel').textContent = `${fmt(sec)} / ${fmt(PROJECT.duration)}`;
+
+      if (PHOTOS.length === 0) {
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(0, 0, 1920, 1080);
+        ctx.fillStyle = '#94a3b8';
+        ctx.textAlign = 'center';
+        ctx.font = '600 44px "Prompt", sans-serif';
+        ctx.fillText('กรุณากดเลือกรูปภาพด้านซ้ายเพื่อเริ่มสร้างวิดีโอ', 960, 540);
+        document.getElementById('statusBadge').textContent = 'ยังไม่ได้เลือกรูปภาพ';
+        return;
+      }
+
+      const n = PHOTOS.length;
+      const durPerImg = PROJECT.duration / n;
+      const idx = Math.min(n - 1, Math.max(0, Math.floor(sec / durPerImg)));
+      const local = sec - idx * durPerImg;
+      const curr = PHOTOS[idx];
+      const next = PHOTOS[Math.min(n - 1, idx + 1)];
+      const fadeDur = Math.min(durPerImg * 0.45, curr.fade_duration || 0.6);
+
+      let p = 0;
+      if (idx < n - 1 && local >= durPerImg - fadeDur) {
+        p = (local - (durPerImg - fadeDur)) / Math.max(0.05, fadeDur);
+      }
+
+      renderTrans(curr, next, p, curr.transition);
+
+      if (PROJECT.intro.enabled && sec >= PROJECT.intro.start && sec <= PROJECT.intro.end) {
+        drawCard(PROJECT.intro.line1, PROJECT.intro.line2, PROJECT.intro.line3);
+      }
+      if (PROJECT.outro.enabled && sec >= PROJECT.outro.start && sec <= PROJECT.outro.end) {
+        drawCard(PROJECT.outro.line1, PROJECT.outro.line2, PROJECT.outro.line3);
+      }
+      if (document.getElementById('subEnabled').checked) {
+        const sub = PROJECT.subtitles.find(s => sec >= s.start && sec <= s.end);
+        if (sub && sub.text) {
+          ctx.save();
+          ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+          ctx.font = '700 52px "Prompt", sans-serif';
+          ctx.lineWidth = 9; ctx.strokeStyle = '#0f172a';
+          ctx.fillStyle = sub.style === 'Note' ? '#a8e6ff' : '#ffffff';
+          ctx.strokeText(sub.text, 960, 1025);
+          ctx.fillText(sub.text, 960, 1025);
+          ctx.restore();
+        }
+      }
+
+      document.getElementById('statusBadge').textContent = `รูปที่ ${idx + 1}/${n} • ${curr.transition}`;
+    }
+
+    function loop(now) {
+      if (TEST_ANIM) {
+        const p = Math.min(1, (now - TEST_ANIM.startMs) / TEST_ANIM.durMs);
+        renderTrans(TEST_ANIM.from, TEST_ANIM.to, p, TEST_ANIM.type);
+        document.getElementById('statusBadge').textContent = `ตัวอย่าง Transition: ${TEST_ANIM.type}`;
+        if (p >= 1) TEST_ANIM = null;
+      } else if (IS_PLAYING) {
+        CURRENT_TIME = audioEl.currentTime;
+        document.getElementById('scrubber').value = CURRENT_TIME;
+        drawFrame(CURRENT_TIME);
+        if (audioEl.ended || CURRENT_TIME >= PROJECT.duration) {
+          IS_PLAYING = false;
+          document.getElementById('playBtn').textContent = '▶ เล่นตัวอย่างพร้อมเพลง';
+        }
+      }
+      requestAnimationFrame(loop);
+    }
+
+    let pollTimer = null;
+    async function renderMP4() {
+      if (PHOTOS.length === 0) {
+        alert('กรุณากดเลือกรูปภาพอย่างน้อย 1 รูปก่อนสร้างวิดีโอครับ');
+        return;
+      }
+      syncBanners();
+      document.getElementById('renderModal').classList.add('open');
+      document.getElementById('renderDoneBtns').style.display = 'none';
+      document.getElementById('renderBar').style.width = '3%';
+      document.getElementById('renderPct').textContent = '0%';
+      document.getElementById('renderMsg').textContent = 'กำลังเริ่มสร้างวิดีโอ...';
+
+      const res = await fetch('/api/render', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          images: PHOTOS,
+          fade_duration: 0.6,
+          intro: PROJECT.intro,
+          outro: PROJECT.outro,
+          subtitles: PROJECT.subtitles,
+          subtitles_enabled: document.getElementById('subEnabled').checked,
+          output_filename: 'วิดีโอ_เพลงมาร์ช_อสม.mp4',
+        }),
+      });
+      if (!res.ok) return;
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = setInterval(async () => {
+        const st = await (await fetch('/api/render-status')).json();
+        document.getElementById('renderBar').style.width = `${st.percent || 0}%`;
+        document.getElementById('renderPct').textContent = `${st.percent || 0}%`;
+        document.getElementById('renderElapsed').textContent = `${st.elapsed || 0} วินาที`;
+        document.getElementById('renderMsg').textContent = st.message || '';
+        if (st.status === 'completed' || st.status === 'error') {
+          clearInterval(pollTimer);
+          document.getElementById('renderDoneBtns').style.display = 'flex';
+          if (st.output_url) document.getElementById('downloadLink').href = st.output_url;
+        }
+      }, 900);
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
