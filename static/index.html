@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ระบบตัดต่อวิดีโอจากรูปภาพ + AI แนะนำ Transition</title>
+  <title>VidMaker — ระบบตัดต่อวิดีโอจากรูปภาพ + AI แนะนำ Transition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -166,7 +166,6 @@
       font-weight: 700;
     }
 
-    /* Big Clean Insert Box */
     .insert-dropzone {
       border: 2px dashed #93c5fd;
       background: var(--primary-light);
@@ -197,7 +196,6 @@
       justify-content: center;
     }
 
-    /* Inserted Photos List */
     .photos-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
@@ -291,7 +289,6 @@
       line-height: 1.35;
     }
 
-    /* AI Mode Bar */
     .ai-modes {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -321,7 +318,6 @@
       color: var(--muted);
     }
 
-    /* Preview Player */
     .player-box {
       position: relative;
       width: 100%;
@@ -352,7 +348,6 @@
       border-radius: 999px;
     }
 
-    /* Modal */
     .modal-bg {
       position: fixed;
       inset: 0;
@@ -393,7 +388,6 @@
 </head>
 <body>
 
-  <!-- Hidden file inputs -->
   <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="onSelectPhotos(this.files)" />
   <input type="file" id="audioInput" accept="audio/*" style="display:none" onchange="onSelectAudio(this.files)" />
 
@@ -401,11 +395,11 @@
     <div class="logo-wrap">
       <div class="logo-icon">🎬</div>
       <div>
-        <h1>ระบบสร้างวิดีโอพร้อม AI แนะนำ Transition</h1>
-        <p>เลือกรูปภาพที่ต้องการใช้ • เลือกเอฟเฟกต์เปลี่ยนภาพแต่ละรูป (หรือให้ AI แนะนำ) • สร้างไฟล์วิดีโอ MP4</p>
+        <h1>VidMaker — ระบบสร้างวิดีโอพร้อม AI แนะนำ Transition</h1>
+        <p>เลือกรูปภาพที่ต้องการใช้ • เลือกเอฟเฟกต์เปลี่ยนภาพแต่ละรูป (หรือให้ AI แนะนำ) • สร้างไฟล์วิดีโอ</p>
       </div>
     </div>
-    <div style="display:flex; gap:10px;">
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
       <button class="btn btn-primary" onclick="document.getElementById('photoInput').click()">
         ＋ เลือกรูปภาพที่จะใช้
       </button>
@@ -413,16 +407,14 @@
         ✨ ให้ AI แนะนำ Transition
       </button>
       <button class="btn btn-green" onclick="renderMP4()">
-        🎬 สร้างวิดีโอ MP4
+        🎬 สร้างวิดีโอ
       </button>
     </div>
   </header>
 
   <main class="layout">
-    <!-- Left Column: Insert Photos & Choose Transitions -->
     <div style="display:flex; flex-direction:column; gap:20px;">
 
-      <!-- 1. Insert Photos Box -->
       <section class="box">
         <div class="box-header">
           <h2>1. รูปภาพในวิดีโอ (<span id="photoCount">0</span> รูป)</h2>
@@ -436,18 +428,15 @@
           </div>
         </div>
 
-        <!-- Empty Dropzone / Insert Button -->
         <div id="dropzone" class="insert-dropzone" onclick="document.getElementById('photoInput').click()">
           <div class="insert-icon">＋</div>
           <div style="font-size:16px; font-weight:700; color:var(--primary);">คลิกที่นี่เพื่อเลือกรูปภาพที่ต้องการใช้</div>
           <div style="font-size:13px; color:var(--muted);">สามารถเลือกทีเดียวหลายรูป หรือลากไฟล์รูปมาวางในกรอบนี้ได้เลย</div>
         </div>
 
-        <!-- Grid of inserted photos (hidden when empty) -->
         <div id="photosGrid" class="photos-grid" style="display:none;"></div>
       </section>
 
-      <!-- 2. AI Recommendation Mode -->
       <section class="box">
         <div class="box-header">
           <h2>2. โหมด AI แนะนำ Transition ให้แต่ละรูป</h2>
@@ -489,11 +478,10 @@
       </section>
     </div>
 
-    <!-- Right Column: Video Preview, Audio & Optional Text -->
     <div style="display:flex; flex-direction:column; gap:20px; position:sticky; top:84px;">
       <section class="box">
         <div class="box-header">
-          <h2>3. ดูตัวอย่างวิดีโอ & สร้างไฟล์ MP4</h2>
+          <h2>3. ดูตัวอย่างวิดีโอ & สร้างไฟล์วิดีโอ</h2>
         </div>
 
         <div class="player-box">
@@ -519,7 +507,6 @@
           </div>
         </div>
 
-        <!-- Collapsible Optional Text & Subtitles -->
         <details style="border:1px solid var(--border); border-radius:10px; padding:10px 14px; background:#f8fafc;">
           <summary style="font-size:13.5px; font-weight:600; cursor:pointer; color:#334155;">
             ⚙️ ตั้งค่าข้อความเปิดคลิป / ท้ายคลิป / ซับไตเติ้ลเนื้อร้อง (คลิกเพื่อเปิด/ปิด)
@@ -549,16 +536,15 @@
         </details>
 
         <button class="btn btn-green" style="width:100%; font-size:15.5px; padding:13px;" onclick="renderMP4()">
-          🎬 สร้างและดาวน์โหลดวิดีโอ MP4 (Full HD)
+          🎬 สร้างและดาวน์โหลดวิดีโอ (Full HD)
         </button>
       </section>
     </div>
   </main>
 
-  <!-- Render Progress Modal -->
   <div id="renderModal" class="modal-bg">
     <div class="modal-box">
-      <h3 style="font-size:17px;">🎬 กำลังสร้างไฟล์วิดีโอ MP4</h3>
+      <h3 style="font-size:17px;">🎬 กำลังสร้างไฟล์วิดีโอ</h3>
       <p id="renderMsg" style="font-size:13.5px; color:var(--muted);">กำลังประมวลผล...</p>
       <div class="bar-bg"><div id="renderBar" class="bar-fill"></div></div>
       <div style="display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted);">
@@ -566,21 +552,98 @@
         <span id="renderElapsed">0.0 วินาที</span>
       </div>
       <div id="renderDoneBtns" style="display:none; justify-content:flex-end; gap:8px; margin-top:6px;">
-        <button class="btn btn-light" onclick="document.getElementById('renderModal').classList.remove('open')">ปิด</button>
-        <a id="downloadLink" class="btn btn-green" href="/output/วิดีโอ_เพลงมาร์ช_อสม.mp4" download>⬇ ดาวน์โหลดวิดีโอ MP4</a>
+        <button class="btn btn-light" onclick="cancelOrCloseRender()">ปิด</button>
+        <a id="downloadLink" class="btn btn-green" href="#" download="วิดีโอ_เพลงมาร์ช_อสม.mp4">⬇ ดาวน์โหลดวิดีโอ</a>
       </div>
     </div>
   </div>
 
-  <audio id="bgAudio" src="/audio" preload="auto"></audio>
+  <audio id="bgAudio" src="/audio" crossorigin="anonymous" preload="auto"></audio>
 
   <script>
-    let PROJECT = null;
-    let PHOTOS = []; // Simple flat list of user-inserted photos
+    const FALLBACK_CATALOG = [
+      { id: "crossfade", name: "Crossfade (ละลายภาพนุ่มนวล)" },
+      { id: "ken_burns", name: "Ken Burns (ซูมช้าๆ + ละลายภาพ)" },
+      { id: "slide_left", name: "Slide Left (เลื่อนภาพไปทางซ้าย)" },
+      { id: "slide_right", name: "Slide Right (เลื่อนภาพไปทางขวา)" },
+      { id: "slide_up", name: "Slide Up (เลื่อนภาพขึ้นด้านบน)" },
+      { id: "wipe_left", name: "Linear Wipe (ปาดเปิดภาพแนวนอน)" },
+      { id: "circle_open", name: "Circle Iris (ขยายวงกลมเปิดภาพ)" },
+      { id: "zoom_in", name: "Dynamic Zoom In (ซูมพุ่งเข้าภาพใหม่)" },
+      { id: "zoom_out", name: "Dynamic Zoom Out (ถอยซูมเผยภาพกว้าง)" },
+      { id: "fade_black", name: "Dip to Black (เฟดมืดคั่นจังหวะ)" },
+      { id: "flash_white", name: "Camera Flash (แฟลชสว่างชัตเตอร์)" },
+      { id: "cut", name: "Hard Cut (ตัดสลับภาพทันที)" }
+    ];
+
+    const FALLBACK_SUBTITLES = [
+      { start: 6.40, end: 11.20, text: "♪ เพลงมาร์ช อสม. (Intro) ♪", style: "Note" },
+      { start: 11.60, end: 15.80, text: "พวกเรา อสม.", style: "Default" },
+      { start: 15.90, end: 20.90, text: "ไม่เคยย่นย่อ งานต่อต้านโรคภัย", style: "Default" },
+      { start: 21.10, end: 25.40, text: "อสม. ขอทุ่ม จิตเทใจ", style: "Default" },
+      { start: 25.60, end: 30.40, text: "ช่วยเหลือคนไทย ทั่วเมืองไทยให้รุ่งเรือง", style: "Default" },
+      { start: 30.80, end: 35.30, text: "โรคร้าย กล้ำกรายเมื่อไรก็ช่าง", style: "Default" },
+      { start: 35.50, end: 40.10, text: "พวกเราตั้ง ใจปัดภัยหนุนเนื่อง", style: "Default" },
+      { start: 40.40, end: 44.90, text: "อสม. ขอชนทั่วมุมเมือง", style: "Default" },
+      { start: 45.10, end: 50.00, text: "เข้าใจในเรื่อง เบื้องต้นการปฐมพยาบาล", style: "Default" },
+      { start: 50.70, end: 55.20, text: "เทิดทูน องค์พระภูมิพล", style: "Default" },
+      { start: 55.40, end: 60.30, text: "และล้นเกล้าจักรีวงศ์เหนือดวงมาลย์", style: "Default" },
+      { start: 60.50, end: 65.10, text: "ทำด้วยจิตกุศลช่วยปวงชน เพื่อเป็นทาน", style: "Default" },
+      { start: 65.30, end: 70.20, text: "อสม.หมายมั่น สรรค์สร้างสังคมไทย", style: "Default" },
+      { start: 70.70, end: 75.00, text: "พวกเรา อสม.", style: "Default" },
+      { start: 75.20, end: 79.70, text: "มุ่งผดุงต่อ งานช่วยอันยิ่งใหญ่", style: "Default" },
+      { start: 79.90, end: 84.40, text: "ดำเนินงาน น้อมนำให้คนไทย", style: "Default" },
+      { start: 84.60, end: 89.60, text: "ทุกคนสิ้นภัย สุขภาพดี ทั่วกันเอย", style: "Default" },
+      { start: 90.00, end: 98.80, text: "♪ (ดนตรีโซโล่ / Solo) ♪", style: "Note" },
+      { start: 99.20, end: 103.40, text: "พวกเรา อสม.", style: "Default" },
+      { start: 103.60, end: 108.50, text: "ไม่เคยย่นย่อ งานต่อต้านโรคภัย", style: "Default" },
+      { start: 108.70, end: 113.00, text: "อสม. ขอทุ่ม จิตเทใจ", style: "Default" },
+      { start: 113.20, end: 118.00, text: "ช่วยเหลือคนไทย ทั่วเมืองไทยให้รุ่งเรือง", style: "Default" },
+      { start: 118.50, end: 122.90, text: "โรคร้าย กล้ำกรายเมื่อไรก็ช่าง", style: "Default" },
+      { start: 123.10, end: 127.70, text: "พวกเราตั้ง ใจปัดภัยหนุนเนื่อง", style: "Default" },
+      { start: 128.00, end: 132.50, text: "อสม. ขอชนทั่วมุมเมือง", style: "Default" },
+      { start: 132.70, end: 137.60, text: "เข้าใจในเรื่อง เบื้องต้นการปฐมพยาบาล", style: "Default" },
+      { start: 138.30, end: 142.80, text: "เทิดทูน องค์พระภูมิพล", style: "Default" },
+      { start: 143.00, end: 147.90, text: "และล้นเกล้า จักรีวงศ์เหนือดวงมาลย์", style: "Default" },
+      { start: 148.10, end: 152.70, text: "ทำด้วยจิตกุศลช่วยปวงชน เพื่อเป็นทาน", style: "Default" },
+      { start: 152.90, end: 157.80, text: "อสม.หมายมั่น สรรค์สร้างสังคมไทย", style: "Default" },
+      { start: 158.30, end: 162.50, text: "พวกเรา อสม.", style: "Default" },
+      { start: 162.70, end: 167.20, text: "มุ่งผดุงต่อ งานช่วยอันยิ่งใหญ่", style: "Default" },
+      { start: 167.50, end: 172.00, text: "ดำเนินงาน น้อมนำให้คนไทย", style: "Default" },
+      { start: 172.20, end: 177.40, text: "ทุกคนสิ้นภัย สุขภาพดี ทั่วกันเอย", style: "Default" }
+    ];
+
+    let HAS_PYTHON_BACKEND = false;
+    let PROJECT = {
+      audio_name: "เพลงมาร์ช อสม.mp3",
+      audio_url: "/static/default_audio.mp3",
+      duration: 198.86,
+      transitions_catalog: FALLBACK_CATALOG,
+      subtitles: FALLBACK_SUBTITLES,
+      intro: {
+        enabled: true,
+        start: 0.4,
+        end: 5.8,
+        line1: "กิจกรรมคัดกรองสุขภาพประชาชนอายุ 15 ปีขึ้นไปในชุมชน",
+        line2: "หมู่ที่ 5-9 ตำบลปกาสัย",
+        line3: "โดย ทีม อสม. (รพ.สต.บ้านคลองเสียด)"
+      },
+      outro: {
+        enabled: true,
+        start: 188.0,
+        end: 198.4,
+        line1: "ขอขอบคุณทีม อสม. ทุกท่าน ที่ทุ่มเทแรงกายแรงใจด้วยจิตอาสา",
+        line2: "ร่วมดูแลและส่งเสริมสุขภาพที่ดีให้แก่พี่น้องประชาชนในชุมชนอย่างแข็งขัน",
+        line3: "ด้วยความขอบคุณยิ่ง — รพ.สต.บ้านคลองเสียด ต.ปกาสัย"
+      }
+    };
+
+    let PHOTOS = [];
     let AI_MODE = 'smart_auto';
     let CURRENT_TIME = 0.0;
     let IS_PLAYING = false;
     let TEST_ANIM = null;
+    let IS_BROWSER_RECORDING = false;
 
     const IMG_CACHE = new Map();
     const canvas = document.getElementById('previewCanvas');
@@ -600,8 +663,30 @@
     }
 
     async function init() {
-      const res = await fetch('/api/project');
-      PROJECT = await res.json();
+      try {
+        const res = await fetch('/api/project');
+        if (res.ok) {
+          const serverProj = await res.json();
+          if (serverProj && serverProj.transitions_catalog) {
+            PROJECT = serverProj;
+            HAS_PYTHON_BACKEND = true;
+          }
+        }
+      } catch (_) {
+        HAS_PYTHON_BACKEND = false;
+      }
+
+      if (!HAS_PYTHON_BACKEND) {
+        audioEl.src = '/static/default_audio.mp3';
+      }
+
+      audioEl.onloadedmetadata = () => {
+        if (audioEl.duration && isFinite(audioEl.duration)) {
+          PROJECT.duration = audioEl.duration;
+          document.getElementById('scrubber').max = PROJECT.duration;
+          drawFrame(CURRENT_TIME);
+        }
+      };
 
       document.getElementById('scrubber').max = PROJECT.duration;
       document.getElementById('audioNameText').textContent = `🎵 ${PROJECT.audio_name}`;
@@ -621,7 +706,6 @@
       document.getElementById('outro2').value = PROJECT.outro.line2;
       document.getElementById('outro3').value = PROJECT.outro.line3;
 
-      // Drag and drop on dropzone
       const dz = document.getElementById('dropzone');
       dz.ondragover = (e) => { e.preventDefault(); dz.classList.add('dragover'); };
       dz.ondragleave = () => dz.classList.remove('dragover');
@@ -638,11 +722,16 @@
       requestAnimationFrame(loop);
     }
 
-    function loadImg(url) {
-      if (!url || IMG_CACHE.has(url)) return;
+    function loadImg(url, cb) {
+      if (!url) return;
+      if (IMG_CACHE.has(url)) {
+        if (cb) cb(IMG_CACHE.get(url));
+        return;
+      }
       const im = new Image();
       im.onload = () => {
         IMG_CACHE.set(url, im);
+        if (cb) cb(im);
         drawFrame(CURRENT_TIME);
       };
       im.src = url;
@@ -650,19 +739,40 @@
 
     async function onSelectPhotos(fileList) {
       if (!fileList || fileList.length === 0) return;
-      const fd = new FormData();
-      for (const f of fileList) fd.append('files', f);
 
-      const res = await fetch('/api/upload-images', { method: 'POST', body: fd });
-      if (!res.ok) {
-        alert('อัปโหลดรูปภาพไม่สำเร็จ');
-        return;
+      if (HAS_PYTHON_BACKEND) {
+        try {
+          const fd = new FormData();
+          for (const f of fileList) fd.append('files', f);
+          const res = await fetch('/api/upload-images', { method: 'POST', body: fd });
+          if (res.ok) {
+            const data = await res.json();
+            data.uploaded.forEach(item => {
+              PHOTOS.push(item);
+              loadImg(item.url);
+            });
+            document.getElementById('photoInput').value = '';
+            renderPhotosList();
+            drawFrame(CURRENT_TIME);
+            return;
+          }
+        } catch (_) {}
       }
-      const data = await res.json();
-      data.uploaded.forEach(item => {
+
+      // Client-side instant load (works on Vercel with zero upload size limits)
+      for (const f of fileList) {
+        const blobUrl = URL.createObjectURL(f);
+        const item = {
+          id: 'local_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+          filename: f.name,
+          url: blobUrl,
+          transition: 'crossfade',
+          fade_duration: 0.6,
+          enabled: true
+        };
         PHOTOS.push(item);
-        loadImg(item.url);
-      });
+        loadImg(blobUrl);
+      }
       document.getElementById('photoInput').value = '';
       renderPhotosList();
       drawFrame(CURRENT_TIME);
@@ -670,17 +780,29 @@
 
     async function onSelectAudio(fileList) {
       if (!fileList || fileList.length === 0) return;
-      const fd = new FormData();
-      fd.append('file', fileList[0]);
-      const res = await fetch('/api/upload-audio', { method: 'POST', body: fd });
-      if (!res.ok) return;
-      const data = await res.json();
-      PROJECT.duration = data.duration;
-      PROJECT.audio_url = data.audio_url;
-      audioEl.src = data.audio_url;
-      document.getElementById('scrubber').max = data.duration;
-      document.getElementById('audioNameText').textContent = `🎵 ${data.audio_name}`;
-      drawFrame(CURRENT_TIME);
+      const file = fileList[0];
+
+      if (HAS_PYTHON_BACKEND) {
+        try {
+          const fd = new FormData();
+          fd.append('file', file);
+          const res = await fetch('/api/upload-audio', { method: 'POST', body: fd });
+          if (res.ok) {
+            const data = await res.json();
+            PROJECT.duration = data.duration;
+            PROJECT.audio_url = data.audio_url;
+            audioEl.src = data.audio_url;
+            document.getElementById('scrubber').max = data.duration;
+            document.getElementById('audioNameText').textContent = `🎵 ${data.audio_name}`;
+            drawFrame(CURRENT_TIME);
+            return;
+          }
+        } catch (_) {}
+      }
+
+      const blobUrl = URL.createObjectURL(file);
+      audioEl.src = blobUrl;
+      document.getElementById('audioNameText').textContent = `🎵 ${file.name}`;
     }
 
     function renderPhotosList() {
@@ -756,28 +878,121 @@
       btn.classList.add('active');
     }
 
+    /* Client-Side Computer Vision AI Analyzer (Runs in browser on Vercel & locally) */
+    function analyzeImageInBrowser(htmlImg) {
+      const c = document.createElement('canvas');
+      c.width = 48;
+      c.height = 48;
+      const cx = c.getContext('2d');
+      cx.drawImage(htmlImg, 0, 0, 48, 48);
+      const data = cx.getImageData(0, 0, 48, 48).data;
+      const hist = new Float32Array(24);
+      const totalPx = 48 * 48;
+      for (let i = 0; i < data.length; i += 4) {
+        hist[Math.min(7, data[i] >> 5)] += 1 / totalPx;
+        hist[8 + Math.min(7, data[i + 1] >> 5)] += 1 / totalPx;
+        hist[16 + Math.min(7, data[i + 2] >> 5)] += 1 / totalPx;
+      }
+      const w = htmlImg.naturalWidth || 1080;
+      const h = htmlImg.naturalHeight || 1080;
+      const aspect = w / Math.max(1, h);
+      const orientation = aspect > 1.15 ? 'landscape' : (aspect < 0.88 ? 'portrait' : 'square');
+      return { hist, orientation };
+    }
+
+    function runClientSideAI() {
+      const n = PHOTOS.length;
+      const metas = PHOTOS.map(p => {
+        const im = IMG_CACHE.get(p.url);
+        return im ? analyzeImageInBrowser(im) : { hist: new Float32Array(24), orientation: 'landscape' };
+      });
+
+      const allIds = PROJECT.transitions_catalog.map(t => t.id).filter(id => id !== 'cut');
+
+      for (let i = 0; i < n; i++) {
+        if (i === n - 1) {
+          PHOTOS[i].transition = 'crossfade';
+          PHOTOS[i].ai_reason = 'ภาพสุดท้ายของคลิป — เฟดจบอย่างนุ่มนวล';
+          continue;
+        }
+        const curr = metas[i];
+        const next = metas[i + 1];
+        let histDiff = 0;
+        for (let b = 0; b < 24; b++) histDiff += Math.abs(curr.hist[b] - next.hist[b]);
+
+        const transTime = ((i + 1) / n) * PROJECT.duration;
+
+        if (AI_MODE === 'dignified') {
+          PHOTOS[i].transition = i % 3 === 0 ? 'ken_burns' : 'crossfade';
+          PHOTOS[i].ai_reason = 'โหมดนุ่มนวลสุภาพ — ใช้การละลายภาพและซูมช้าๆ';
+        } else if (AI_MODE === 'upbeat_march') {
+          const cycle = ['slide_left', 'zoom_in', 'wipe_left', 'flash_white', 'slide_up', 'circle_open'];
+          PHOTOS[i].transition = cycle[i % cycle.length];
+          PHOTOS[i].ai_reason = `โหมดคึกคัก — ใช้ ${PHOTOS[i].transition} เข้ากับจังหวะเพลง`;
+        } else if (AI_MODE === 'variety') {
+          PHOTOS[i].transition = allIds[i % allIds.length];
+          PHOTOS[i].ai_reason = `โหมดหลากหลาย — สลับเอฟเฟกต์ ${PHOTOS[i].transition}`;
+        } else {
+          if (histDiff > 0.72) {
+            PHOTOS[i].transition = i % 2 === 0 ? 'fade_black' : 'circle_open';
+            PHOTOS[i].ai_reason = 'AI พบว่าโทนสีและฉากเปลี่ยนไปชัดเจน — ใช้เอฟเฟกต์เปิดฉากใหม่';
+          } else if ((transTime >= 50 && transTime <= 70) || (transTime >= 138 && transTime <= 158)) {
+            PHOTOS[i].transition = i % 2 === 0 ? 'ken_burns' : 'crossfade';
+            PHOTOS[i].ai_reason = 'ตรงกับท่อนเพลงท่วงทำนองสง่างาม — AI แนะนำการซูมและละลายภาพนุ่มนวล';
+          } else if (transTime >= 90 && transTime <= 99) {
+            const solo = ['flash_white', 'zoom_in', 'circle_open', 'slide_left'];
+            PHOTOS[i].transition = solo[i % solo.length];
+            PHOTOS[i].ai_reason = 'ตรงกับช่วงดนตรีโซโล่คึกคัก — AI แนะนำเอฟเฟกต์เพิ่มความตื่นตา';
+          } else if (histDiff < 0.34) {
+            PHOTOS[i].transition = i % 2 === 0 ? 'slide_left' : 'wipe_left';
+            PHOTOS[i].ai_reason = 'AI พบว่าภาพคู่นี้มีโทนสีใกล้เคียงกัน — แนะนำการสไลด์เพื่อให้เห็นการเปลี่ยนภาพชัดเจน';
+          } else if (curr.orientation !== next.orientation) {
+            PHOTOS[i].transition = next.orientation === 'landscape' ? 'zoom_out' : 'zoom_in';
+            PHOTOS[i].ai_reason = 'สัดส่วนภาพเปลี่ยน (แนวตั้ง ↔ แนวนอน) — AI แนะนำการซูมรับมุมภาพใหม่';
+          } else {
+            const opts = ['crossfade', 'ken_burns', 'slide_left', 'circle_open', 'slide_right'];
+            PHOTOS[i].transition = opts[i % opts.length];
+            PHOTOS[i].ai_reason = 'AI เลือกเอฟเฟกต์ให้สมดุลกับองค์ประกอบภาพและจังหวะเพลง';
+          }
+        }
+      }
+    }
+
     async function applyAI() {
       if (PHOTOS.length === 0) {
         alert('กรุณากดเลือกรูปภาพอย่างน้อย 1–2 รูปก่อนให้ AI แนะนำครับ');
         return;
       }
       document.getElementById('aiStatusText').textContent = '⏳ AI กำลังวิเคราะห์รูปภาพ...';
-      const res = await fetch('/api/ai-recommend', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode: AI_MODE, images: PHOTOS }),
-      });
-      if (!res.ok) return;
-      const data = await res.json();
-      const map = new Map(data.recommendations.map(r => [r.id, r]));
-      PHOTOS.forEach(p => {
-        const rec = map.get(p.id);
-        if (rec) {
-          p.transition = rec.transition;
-          p.fade_duration = rec.fade_duration;
-          p.ai_reason = rec.reason;
-        }
-      });
+
+      if (HAS_PYTHON_BACKEND && PHOTOS.every(p => !p.url.startsWith('blob:'))) {
+        try {
+          const res = await fetch('/api/ai-recommend', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ mode: AI_MODE, images: PHOTOS }),
+          });
+          if (res.ok) {
+            const data = await res.json();
+            const map = new Map(data.recommendations.map(r => [r.id, r]));
+            PHOTOS.forEach(p => {
+              const rec = map.get(p.id);
+              if (rec) {
+                p.transition = rec.transition;
+                p.fade_duration = rec.fade_duration;
+                p.ai_reason = rec.reason;
+              }
+            });
+            document.getElementById('aiStatusText').textContent =
+              `✅ AI เลือก Transition ให้ครบทั้ง ${PHOTOS.length} รูปเรียบร้อยแล้ว!`;
+            renderPhotosList();
+            testSingleTransition(0);
+            return;
+          }
+        } catch (_) {}
+      }
+
+      runClientSideAI();
       document.getElementById('aiStatusText').textContent =
         `✅ AI เลือก Transition ให้ครบทั้ง ${PHOTOS.length} รูปเรียบร้อยแล้ว!`;
       renderPhotosList();
@@ -960,7 +1175,8 @@
         const sub = PROJECT.subtitles.find(s => sec >= s.start && sec <= s.end);
         if (sub && sub.text) {
           ctx.save();
-          ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
           ctx.font = '700 52px "Prompt", sans-serif';
           ctx.lineWidth = 9; ctx.strokeStyle = '#0f172a';
           ctx.fillStyle = sub.style === 'Note' ? '#a8e6ff' : '#ffffff';
@@ -979,7 +1195,7 @@
         renderTrans(TEST_ANIM.from, TEST_ANIM.to, p, TEST_ANIM.type);
         document.getElementById('statusBadge').textContent = `ตัวอย่าง Transition: ${TEST_ANIM.type}`;
         if (p >= 1) TEST_ANIM = null;
-      } else if (IS_PLAYING) {
+      } else if (IS_PLAYING || IS_BROWSER_RECORDING) {
         CURRENT_TIME = audioEl.currentTime;
         document.getElementById('scrubber').value = CURRENT_TIME;
         drawFrame(CURRENT_TIME);
@@ -991,7 +1207,22 @@
       requestAnimationFrame(loop);
     }
 
+    /* Video Export (Hybrid: FastAPI FFmpeg when local, WebRTC MediaRecorder when on Vercel) */
     let pollTimer = null;
+    let activeRecorder = null;
+    let audioCtx = null;
+    let mediaSourceNode = null;
+    let streamDestNode = null;
+
+    function cancelOrCloseRender() {
+      if (activeRecorder && activeRecorder.state === 'recording') {
+        activeRecorder.stop();
+      }
+      IS_BROWSER_RECORDING = false;
+      audioEl.pause();
+      document.getElementById('renderModal').classList.remove('open');
+    }
+
     async function renderMP4() {
       if (PHOTOS.length === 0) {
         alert('กรุณากดเลือกรูปภาพอย่างน้อย 1 รูปก่อนสร้างวิดีโอครับ');
@@ -1004,33 +1235,128 @@
       document.getElementById('renderPct').textContent = '0%';
       document.getElementById('renderMsg').textContent = 'กำลังเริ่มสร้างวิดีโอ...';
 
-      const res = await fetch('/api/render', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          images: PHOTOS,
-          fade_duration: 0.6,
-          intro: PROJECT.intro,
-          outro: PROJECT.outro,
-          subtitles: PROJECT.subtitles,
-          subtitles_enabled: document.getElementById('subEnabled').checked,
-          output_filename: 'วิดีโอ_เพลงมาร์ช_อสม.mp4',
-        }),
-      });
-      if (!res.ok) return;
-      if (pollTimer) clearInterval(pollTimer);
-      pollTimer = setInterval(async () => {
-        const st = await (await fetch('/api/render-status')).json();
-        document.getElementById('renderBar').style.width = `${st.percent || 0}%`;
-        document.getElementById('renderPct').textContent = `${st.percent || 0}%`;
-        document.getElementById('renderElapsed').textContent = `${st.elapsed || 0} วินาที`;
-        document.getElementById('renderMsg').textContent = st.message || '';
-        if (st.status === 'completed' || st.status === 'error') {
-          clearInterval(pollTimer);
-          document.getElementById('renderDoneBtns').style.display = 'flex';
-          if (st.output_url) document.getElementById('downloadLink').href = st.output_url;
+      if (HAS_PYTHON_BACKEND && PHOTOS.every(p => !p.url.startsWith('blob:'))) {
+        try {
+          const res = await fetch('/api/render', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              images: PHOTOS,
+              fade_duration: 0.6,
+              intro: PROJECT.intro,
+              outro: PROJECT.outro,
+              subtitles: PROJECT.subtitles,
+              subtitles_enabled: document.getElementById('subEnabled').checked,
+              output_filename: 'วิดีโอ_เพลงมาร์ช_อสม.mp4',
+            }),
+          });
+          if (res.ok) {
+            if (pollTimer) clearInterval(pollTimer);
+            pollTimer = setInterval(async () => {
+              const st = await (await fetch('/api/render-status')).json();
+              document.getElementById('renderBar').style.width = `${st.percent || 0}%`;
+              document.getElementById('renderPct').textContent = `${st.percent || 0}%`;
+              document.getElementById('renderElapsed').textContent = `${st.elapsed || 0} วินาที`;
+              document.getElementById('renderMsg').textContent = st.message || '';
+              if (st.status === 'completed' || st.status === 'error') {
+                clearInterval(pollTimer);
+                document.getElementById('renderDoneBtns').style.display = 'flex';
+                if (st.output_url) {
+                  const dl = document.getElementById('downloadLink');
+                  dl.href = st.output_url;
+                  dl.download = 'วิดีโอ_เพลงมาร์ช_อสม.mp4';
+                }
+              }
+            }, 900);
+            return;
+          }
+        } catch (_) {}
+      }
+
+      // Browser-native Canvas + Audio Recorder for Vercel Cloud deployment
+      startBrowserVideoExport();
+    }
+
+    function startBrowserVideoExport() {
+      const t0 = performance.now();
+      const canvasStream = canvas.captureStream(30);
+
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          mediaSourceNode = audioCtx.createMediaElementSource(audioEl);
+          streamDestNode = audioCtx.createMediaStreamDestination();
+          mediaSourceNode.connect(streamDestNode);
+          mediaSourceNode.connect(audioCtx.destination);
         }
-      }, 900);
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const audioTrack = streamDestNode.stream.getAudioTracks()[0];
+        if (audioTrack) canvasStream.addTrack(audioTrack);
+      } catch (_) {}
+
+      const mimeOptions = [
+        'video/mp4;codecs=avc1,mp4a.40.2',
+        'video/mp4',
+        'video/webm;codecs=vp9,opus',
+        'video/webm'
+      ];
+      let chosenMime = 'video/webm';
+      for (const m of mimeOptions) {
+        if (window.MediaRecorder && MediaRecorder.isTypeSupported(m)) {
+          chosenMime = m;
+          break;
+        }
+      }
+      const ext = chosenMime.includes('mp4') ? 'mp4' : 'webm';
+      const chunks = [];
+      activeRecorder = new MediaRecorder(canvasStream, {
+        mimeType: chosenMime,
+        videoBitsPerSecond: 5000000
+      });
+
+      activeRecorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) chunks.push(e.data);
+      };
+
+      activeRecorder.onstop = () => {
+        IS_BROWSER_RECORDING = false;
+        const blob = new Blob(chunks, { type: chosenMime });
+        const url = URL.createObjectURL(blob);
+        const dl = document.getElementById('downloadLink');
+        dl.href = url;
+        dl.download = `วิดีโอ_เพลงมาร์ช_อสม.${ext}`;
+        document.getElementById('renderBar').style.width = '100%';
+        document.getElementById('renderPct').textContent = '100%';
+        document.getElementById('renderMsg').textContent = '✅ สร้างไฟล์วิดีโอเสร็จเรียบร้อยแล้ว กดปุ่มดาวน์โหลดได้เลย!';
+        document.getElementById('renderDoneBtns').style.display = 'flex';
+      };
+
+      IS_BROWSER_RECORDING = true;
+      audioEl.currentTime = 0;
+      CURRENT_TIME = 0;
+      activeRecorder.start(500);
+      audioEl.play().catch(() => {});
+
+      const recTimer = setInterval(() => {
+        if (!IS_BROWSER_RECORDING) {
+          clearInterval(recTimer);
+          return;
+        }
+        const pct = Math.min(99, Math.round((audioEl.currentTime / Math.max(1, PROJECT.duration)) * 100));
+        const elapsed = ((performance.now() - t0) / 1000).toFixed(1);
+        document.getElementById('renderBar').style.width = `${pct}%`;
+        document.getElementById('renderPct').textContent = `${pct}%`;
+        document.getElementById('renderElapsed').textContent = `${elapsed} วินาที`;
+        document.getElementById('renderMsg').textContent = `กำลังบันทึกวิดีโอพร้อมเสียงเพลง (${fmt(audioEl.currentTime)} / ${fmt(PROJECT.duration)})...`;
+
+        if (audioEl.ended || audioEl.currentTime >= PROJECT.duration - 0.15) {
+          clearInterval(recTimer);
+          if (activeRecorder && activeRecorder.state === 'recording') {
+            activeRecorder.stop();
+          }
+          audioEl.pause();
+        }
+      }, 400);
     }
 
     window.addEventListener('DOMContentLoaded', init);
