@@ -9,9 +9,6 @@ import imageio_ffmpeg
 from PIL import Image, ImageOps, ImageFilter, ImageEnhance, ImageDraw
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_AUDIO = os.path.join(BASE_DIR, "AudioTranscriberAI_เพลงมาร์ช อสม.mp3")
-DEFAULT_OUTPUT = os.path.join(BASE_DIR, "วิดีโอ_เพลงมาร์ช_อสม.mp4")
-
 WIDTH = 1920
 HEIGHT = 1080
 FPS = 30
@@ -21,7 +18,7 @@ TRANSITION_CATALOG = [
         "id": "crossfade",
         "name": "Crossfade (ละลายภาพนุ่มนวล)",
         "icon": "sparkles",
-        "desc": "ค่อยๆ จางซ้อนภาพเก่าเข้าสู่ภาพใหม่อย่างนุ่มนวล เหมาะกับทุกช่วงของเพลง",
+        "desc": "ค่อยๆ จางซ้อนภาพเก่าเข้าสู่ภาพใหม่อย่างนุ่มนวล",
     },
     {
         "id": "ken_burns",
@@ -45,25 +42,25 @@ TRANSITION_CATALOG = [
         "id": "slide_up",
         "name": "Slide Up (เลื่อนภาพขึ้นด้านบน)",
         "icon": "arrow-up",
-        "desc": "ภาพใหม่เลื่อนขึ้นมาจากด้านล่าง ให้ความรู้สึกก้าวหน้าและต่อเนื่อง",
+        "desc": "ภาพใหม่เลื่อนขึ้นมาจากด้านล่าง",
     },
     {
         "id": "wipe_left",
         "name": "Linear Wipe (ปาดเปิดภาพแนวนอน)",
         "icon": "columns",
-        "desc": "ปาดม่านเปิดภาพใหม่จากซ้ายไปขวาโดยภาพไม่เลื่อนตาม",
+        "desc": "ปาดม่านเปิดภาพใหม่จากซ้ายไปขวา",
     },
     {
         "id": "circle_open",
         "name": "Circle Iris (ขยายวงกลมเปิดภาพ)",
         "icon": "circle",
-        "desc": "เปิดภาพใหม่เป็นวงกลมขยายออกจากจุดกึ่งกลางจอ เหมาะกับภาพหมู่หรือจุดสำคัญ",
+        "desc": "เปิดภาพใหม่เป็นวงกลมขยายออกจากจุดกึ่งกลางจอ",
     },
     {
         "id": "zoom_in",
         "name": "Dynamic Zoom In (ซูมพุ่งเข้าภาพใหม่)",
         "icon": "maximize-2",
-        "desc": "ซูมขยายภาพเก่าพร้อมดึงภาพใหม่เข้ามา เพิ่มความตื่นเต้นตามจังหวะมาร์ช",
+        "desc": "ซูมขยายภาพเก่าพร้อมดึงภาพใหม่เข้ามา",
     },
     {
         "id": "zoom_out",
@@ -75,57 +72,20 @@ TRANSITION_CATALOG = [
         "id": "fade_black",
         "name": "Dip to Black (เฟดมืดคั่นจังหวะ)",
         "icon": "moon",
-        "desc": "เฟดลงสีดำสั้นๆ ก่อนขึ้นภาพใหม่ เหมาะสำหรับคั่นระหว่างโฟลเดอร์หรือเปลี่ยนท่อนเพลง",
+        "desc": "เฟดลงสีดำสั้นๆ ก่อนขึ้นภาพใหม่ เหมาะสำหรับคั่นฉาก",
     },
     {
         "id": "flash_white",
         "name": "Camera Flash (แฟลชสว่างชัตเตอร์)",
         "icon": "zap",
-        "desc": "สว่างวาบเหมือนแสงแฟลชกล้องถ่ายรูป เหมาะกับช่วงโซโล่ดนตรีหรือจังหวะเน้น",
+        "desc": "สว่างวาบเหมือนแสงแฟลชกล้องถ่ายรูป",
     },
     {
         "id": "cut",
         "name": "Hard Cut (ตัดสลับภาพทันที)",
         "icon": "scissors",
-        "desc": "ตัดเปลี่ยนภาพทันทีแบบกระชับตรงจังหวะกลองมาร์ช",
+        "desc": "ตัดเปลี่ยนภาพทันทีแบบกระชับ",
     },
-]
-
-DEFAULT_SUBTITLES = [
-    {"start": 6.40, "end": 11.20, "text": "♪ เพลงมาร์ช อสม. (Intro) ♪", "style": "Note"},
-    {"start": 11.60, "end": 15.80, "text": "พวกเรา อสม.", "style": "Default"},
-    {"start": 15.90, "end": 20.90, "text": "ไม่เคยย่นย่อ งานต่อต้านโรคภัย", "style": "Default"},
-    {"start": 21.10, "end": 25.40, "text": "อสม. ขอทุ่ม จิตเทใจ", "style": "Default"},
-    {"start": 25.60, "end": 30.40, "text": "ช่วยเหลือคนไทย ทั่วเมืองไทยให้รุ่งเรือง", "style": "Default"},
-    {"start": 30.80, "end": 35.30, "text": "โรคร้าย กล้ำกรายเมื่อไรก็ช่าง", "style": "Default"},
-    {"start": 35.50, "end": 40.10, "text": "พวกเราตั้ง ใจปัดภัยหนุนเนื่อง", "style": "Default"},
-    {"start": 40.40, "end": 44.90, "text": "อสม. ขอชนทั่วมุมเมือง", "style": "Default"},
-    {"start": 45.10, "end": 50.00, "text": "เข้าใจในเรื่อง เบื้องต้นการปฐมพยาบาล", "style": "Default"},
-    {"start": 50.70, "end": 55.20, "text": "เทิดทูน องค์พระภูมิพล", "style": "Default"},
-    {"start": 55.40, "end": 60.30, "text": "และล้นเกล้าจักรีวงศ์เหนือดวงมาลย์", "style": "Default"},
-    {"start": 60.50, "end": 65.10, "text": "ทำด้วยจิตกุศลช่วยปวงชน เพื่อเป็นทาน", "style": "Default"},
-    {"start": 65.30, "end": 70.20, "text": "อสม.หมายมั่น สรรค์สร้างสังคมไทย", "style": "Default"},
-    {"start": 70.70, "end": 75.00, "text": "พวกเรา อสม.", "style": "Default"},
-    {"start": 75.20, "end": 79.70, "text": "มุ่งผดุงต่อ งานช่วยอันยิ่งใหญ่", "style": "Default"},
-    {"start": 79.90, "end": 84.40, "text": "ดำเนินงาน น้อมนำให้คนไทย", "style": "Default"},
-    {"start": 84.60, "end": 89.60, "text": "ทุกคนสิ้นภัย สุขภาพดี ทั่วกันเอย", "style": "Default"},
-    {"start": 90.00, "end": 98.80, "text": "♪ (ดนตรีโซโล่ / Solo) ♪", "style": "Note"},
-    {"start": 99.20, "end": 103.40, "text": "พวกเรา อสม.", "style": "Default"},
-    {"start": 103.60, "end": 108.50, "text": "ไม่เคยย่นย่อ งานต่อต้านโรคภัย", "style": "Default"},
-    {"start": 108.70, "end": 113.00, "text": "อสม. ขอทุ่ม จิตเทใจ", "style": "Default"},
-    {"start": 113.20, "end": 118.00, "text": "ช่วยเหลือคนไทย ทั่วเมืองไทยให้รุ่งเรือง", "style": "Default"},
-    {"start": 118.50, "end": 122.90, "text": "โรคร้าย กล้ำกรายเมื่อไรก็ช่าง", "style": "Default"},
-    {"start": 123.10, "end": 127.70, "text": "พวกเราตั้ง ใจปัดภัยหนุนเนื่อง", "style": "Default"},
-    {"start": 128.00, "end": 132.50, "text": "อสม. ขอชนทั่วมุมเมือง", "style": "Default"},
-    {"start": 132.70, "end": 137.60, "text": "เข้าใจในเรื่อง เบื้องต้นการปฐมพยาบาล", "style": "Default"},
-    {"start": 138.30, "end": 142.80, "text": "เทิดทูน องค์พระภูมิพล", "style": "Default"},
-    {"start": 143.00, "end": 147.90, "text": "และล้นเกล้า จักรีวงศ์เหนือดวงมาลย์", "style": "Default"},
-    {"start": 148.10, "end": 152.70, "text": "ทำด้วยจิตกุศลช่วยปวงชน เพื่อเป็นทาน", "style": "Default"},
-    {"start": 152.90, "end": 157.80, "text": "อสม.หมายมั่น สรรค์สร้างสังคมไทย", "style": "Default"},
-    {"start": 158.30, "end": 162.50, "text": "พวกเรา อสม.", "style": "Default"},
-    {"start": 162.70, "end": 167.20, "text": "มุ่งผดุงต่อ งานช่วยอันยิ่งใหญ่", "style": "Default"},
-    {"start": 167.50, "end": 172.00, "text": "ดำเนินงาน น้อมนำให้คนไทย", "style": "Default"},
-    {"start": 172.20, "end": 177.40, "text": "ทุกคนสิ้นภัย สุขภาพดี ทั่วกันเอย", "style": "Default"},
 ]
 
 
@@ -134,7 +94,9 @@ def smoothstep(t: float) -> float:
     return t * t * (3.0 - 2.0 * t)
 
 
-def get_audio_duration(audio_path=DEFAULT_AUDIO) -> float:
+def get_audio_duration(audio_path: Optional[str] = None) -> float:
+    if not audio_path or not os.path.exists(audio_path):
+        return 60.0
     ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
     res = subprocess.run(
         [ffmpeg_exe, "-i", audio_path],
@@ -145,39 +107,13 @@ def get_audio_duration(audio_path=DEFAULT_AUDIO) -> float:
     )
     match = re.search(r"Duration:\s*(\d+):(\d+):(\d+\.\d+)", res.stderr)
     if not match:
-        return 198.86
+        return 60.0
     h, m, s = int(match.group(1)), int(match.group(2)), float(match.group(3))
     return h * 3600 + m * 60 + s
 
 
-def discover_workspace_images():
-    """Return all workspace images in folders 1..5 with metadata."""
-    items = []
-    idx = 0
-    for folder in ["1", "2", "3", "4", "5"]:
-        folder_path = os.path.join(BASE_DIR, folder)
-        if not os.path.isdir(folder_path):
-            continue
-        imgs = sorted(glob.glob(os.path.join(folder_path, "*.jpg")))
-        for p in imgs:
-            rel = f"{folder}/{os.path.basename(p)}"
-            items.append({
-                "index": idx,
-                "id": f"img_{idx}",
-                "folder": folder,
-                "filename": os.path.basename(p),
-                "rel_path": rel,
-                "abs_path": p,
-                "url": f"/media/{rel}",
-                "transition": "crossfade",
-                "enabled": True,
-            })
-            idx += 1
-    return items
-
-
 def analyze_single_image(img_path):
-    """Extract fast computer-vision metrics for AI Transition Director."""
+    """Extract computer-vision metrics for AI Transition Director."""
     try:
         with Image.open(img_path) as im:
             im = ImageOps.exif_transpose(im).convert("RGB")
@@ -188,9 +124,7 @@ def analyze_single_image(img_path):
             arr = np.asarray(thumb, dtype=np.float32)
             brightness = float(np.mean(arr))
             contrast = float(np.std(arr))
-            # Warmth: R - B channel average
             warmth = float(np.mean(arr[:, :, 0] - arr[:, :, 2]))
-            # 12-bin color histogram signature for similarity comparison
             hist_r, _ = np.histogram(arr[:, :, 0], bins=8, range=(0, 256), density=True)
             hist_g, _ = np.histogram(arr[:, :, 1], bins=8, range=(0, 256), density=True)
             hist_b, _ = np.histogram(arr[:, :, 2], bins=8, range=(0, 256), density=True)
@@ -218,38 +152,9 @@ def analyze_single_image(img_path):
         }
 
 
-def get_music_section(timestamp: float):
-    """Map timestamp in เพลงมาร์ช อสม. to its musical section."""
-    if timestamp < 11.6:
-        return ("intro", "ช่วงดนตรีเปิดตัว (Brass Intro)", "energetic")
-    elif timestamp < 30.6:
-        return ("verse1_a", "ท่อนร้องที่ 1: พวกเรา อสม. ไม่เคยย่นย่อ", "march")
-    elif timestamp < 50.5:
-        return ("verse1_b", "ท่อนร้องที่ 2: โรคร้ายกล้ำกราย / การปฐมพยาบาล", "march")
-    elif timestamp < 70.5:
-        return ("bridge1", "ท่อนเทิดทูนฯ & จิตกุศลช่วยปวงชน", "dignified")
-    elif timestamp < 89.8:
-        return ("chorus1", "ท่อนสร้อย: มุ่งผดุงต่องานช่วยอันยิ่งใหญ่", "uplifting")
-    elif timestamp < 99.0:
-        return ("solo", "ช่วงดนตรีมาร์ชโซโล่ (Instrumental Solo)", "solo_dynamic")
-    elif timestamp < 118.2:
-        return ("verse2_a", "ท่อนร้องรอบ 2: พวกเรา อสม. ขอทุ่มจิตเทใจ", "march")
-    elif timestamp < 138.0:
-        return ("verse2_b", "ท่อนร้องรอบ 2: ขอชนทั่วมุมเมือง", "march")
-    elif timestamp < 158.0:
-        return ("bridge2", "ท่อนเทิดทูนฯ & สรรค์สร้างสังคมไทย (รอบ 2)", "dignified")
-    elif timestamp < 177.6:
-        return ("chorus2", "ท่อนสร้อยจบเพลง: สุขภาพดีทั่วกันเอย", "uplifting")
-    elif timestamp < 188.0:
-        return ("outro_brass", "ดนตรีบรรเลงปิดท้ายเพลง (Grand Finale)", "energetic")
-    else:
-        return ("outro_card", "ช่วงท้ายคลิป: ขอบคุณทีม อสม.", "closing")
-
-
-def ai_recommend_transitions(images_list, total_duration=198.86, mode="smart_auto"):
+def ai_recommend_transitions(images_list, total_duration=60.0, mode="smart_auto"):
     """
-    Analyze all active images + musical timeline to recommend the ideal transition
-    per image, returning both the transition ID and a human-readable Thai explanation.
+    Analyze all active images to recommend the ideal transition per image.
     """
     n = len(images_list)
     if n == 0:
@@ -262,13 +167,7 @@ def ai_recommend_transitions(images_list, total_duration=198.86, mode="smart_aut
         item = images_list[i]
         curr_meta = analyses[i]
         next_meta = analyses[i + 1] if i + 1 < n else curr_meta
-        next_item = images_list[i + 1] if i + 1 < n else item
 
-        # Timestamp of transition from image i -> image i+1
-        trans_time = ((i + 1) / n) * total_duration
-        sec_id, sec_name, mood = get_music_section(trans_time)
-
-        # Visual similarity between image i and image i+1 (L1 distance of histograms)
         hist_diff = float(np.sum(np.abs(curr_meta["sig"] - next_meta["sig"])))
         orientation_changed = curr_meta["orientation"] != next_meta["orientation"]
 
@@ -278,7 +177,6 @@ def ai_recommend_transitions(images_list, total_duration=198.86, mode="smart_aut
                 "id": item["id"],
                 "transition": "crossfade",
                 "fade_duration": 0.6,
-                "section": sec_name,
                 "reason": "ภาพสุดท้ายของคลิป — เฟดจบอย่างนุ่มนวล",
                 "metrics": {
                     "orientation": curr_meta["orientation"],
@@ -291,16 +189,16 @@ def ai_recommend_transitions(images_list, total_duration=198.86, mode="smart_aut
         if mode == "dignified":
             if i % 3 == 0:
                 t_choice = "ken_burns"
-                reason = "โหมดสุภาพสง่างาม — ใช้ Ken Burns ซูมภาพช้าๆ อย่างมีมิติ"
+                reason = "โหมดนุ่มนวลสุภาพ — ใช้ Ken Burns ซูมภาพช้าๆ อย่างมีมิติ"
             else:
                 t_choice = "crossfade"
-                reason = "โหมดสุภาพสง่างาม — ใช้ Crossfade ละลายภาพต่อเนื่องอย่างนุ่มนวล"
+                reason = "โหมดนุ่มนวลสุภาพ — ใช้ Crossfade ละลายภาพต่อเนื่อง"
             fade_dur = 0.7
 
         elif mode == "upbeat_march":
             cycle = ["slide_left", "zoom_in", "wipe_left", "flash_white", "slide_up", "circle_open"]
             t_choice = cycle[i % len(cycle)]
-            reason = f"โหมดคึกคัก — ใช้ {t_choice} ให้ภาพเคลื่อนไหวกระชับเข้ากับจังหวะเพลง"
+            reason = f"โหมดคึกคัก — ใช้ {t_choice} ให้ภาพเคลื่อนไหวกระชับ"
             fade_dur = 0.5
 
         elif mode == "documentary":
@@ -319,21 +217,12 @@ def ai_recommend_transitions(images_list, total_duration=198.86, mode="smart_aut
             fade_dur = 0.6
 
         else:
-            # Default: "smart_auto" (AI Computer Vision + Music Rhythm analysis)
-            if hist_diff > 0.75:
+            # Default: "smart_auto" (Computer Vision analysis)
+            if hist_diff > 0.72:
                 t_choice = "fade_black" if i % 2 == 0 else "circle_open"
                 reason = "AI พบว่าโทนสีและฉากของภาพเปลี่ยนไปชัดเจน — ใช้เอฟเฟกต์เปิดฉากใหม่"
                 fade_dur = 0.65
-            elif mood == "dignified":
-                t_choice = "ken_burns" if i % 2 == 0 else "crossfade"
-                reason = "ช่วงจังหวะเพลงนุ่มนวลสง่างาม — AI แนะนำให้ละลายภาพพร้อมซูมช้าๆ"
-                fade_dur = 0.75
-            elif mood == "solo_dynamic":
-                solo_opts = ["flash_white", "zoom_in", "circle_open", "slide_left"]
-                t_choice = solo_opts[i % len(solo_opts)]
-                reason = "ช่วงดนตรีจังหวะคึกคัก — AI แนะนำเอฟเฟกต์เพิ่มความตื่นตา"
-                fade_dur = 0.5
-            elif hist_diff < 0.35:
+            elif hist_diff < 0.34:
                 t_choice = "slide_left" if i % 2 == 0 else "wipe_left"
                 reason = "AI พบว่าภาพคู่นี้มีโทนสีใกล้เคียงกัน — แนะนำการสไลด์ภาพเพื่อให้เห็นการเปลี่ยนรูปชัดเจน"
                 fade_dur = 0.55
@@ -341,10 +230,14 @@ def ai_recommend_transitions(images_list, total_duration=198.86, mode="smart_aut
                 t_choice = "zoom_out" if next_meta["orientation"] == "landscape" else "zoom_in"
                 reason = "สัดส่วนภาพเปลี่ยน (แนวตั้ง ↔ แนวนอน) — AI แนะนำการซูมเพื่อรับกับมุมภาพใหม่"
                 fade_dur = 0.6
+            elif abs(curr_meta["brightness"] - next_meta["brightness"]) > 45:
+                t_choice = "crossfade" if next_meta["brightness"] < curr_meta["brightness"] else "flash_white"
+                reason = "ความสว่างของภาพเปลี่ยนชัดเจน — AI ปรับเอฟเฟกต์แสงให้กลมกลืน"
+                fade_dur = 0.6
             else:
-                march_opts = ["crossfade", "ken_burns", "slide_left", "circle_open", "slide_right"]
-                t_choice = march_opts[i % len(march_opts)]
-                reason = "AI เลือกเอฟเฟกต์ให้สมดุลกับองค์ประกอบภาพและจังหวะเพลง"
+                opts = ["crossfade", "ken_burns", "slide_left", "circle_open", "slide_right"]
+                t_choice = opts[i % len(opts)]
+                reason = "AI วิเคราะห์องค์ประกอบภาพและเลือกเอฟเฟกต์ที่สมดุลต่อเนื่อง"
                 fade_dur = 0.6
 
         recommendations.append({
@@ -352,7 +245,6 @@ def ai_recommend_transitions(images_list, total_duration=198.86, mode="smart_aut
             "id": item["id"],
             "transition": t_choice,
             "fade_duration": fade_dur,
-            "section": sec_name,
             "reason": reason,
             "metrics": {
                 "orientation": curr_meta["orientation"],
@@ -393,7 +285,6 @@ def prepare_frame(img_path, width=WIDTH, height=HEIGHT):
 
 
 def zoom_image(img: Image.Image, scale: float) -> Image.Image:
-    """Center-crop zoom an RGB image by `scale` (>= 1.0)."""
     if abs(scale - 1.0) < 1e-3:
         return img
     w, h = img.size
@@ -405,7 +296,6 @@ def zoom_image(img: Image.Image, scale: float) -> Image.Image:
     return cropped.resize((w, h), Image.Resampling.BILINEAR)
 
 
-# Precomputed radial distance grid for Circle Iris transition
 _CIRCLE_GRID = None
 
 
@@ -427,45 +317,35 @@ def render_transition_frame(
     black_img: Image.Image = None,
     white_img: Image.Image = None,
 ) -> Image.Image:
-    """
-    Render a transition frame between `img_a` and `img_b` at normalized `progress` in [0, 1].
-    Supports all 12 transition types.
-    """
     p = smoothstep(progress)
     w, h = img_a.size
 
     if transition_type == "cut":
         return img_b if progress >= 0.5 else img_a
-
     if transition_type == "crossfade":
         return Image.blend(img_a, img_b, p)
-
     if transition_type == "ken_burns":
         zoomed_a = zoom_image(img_a, 1.0 + 0.08 * p)
         zoomed_b = zoom_image(img_b, 1.06 - 0.06 * p)
         return Image.blend(zoomed_a, zoomed_b, p)
-
     if transition_type == "slide_left":
         offset = int(round(w * p))
         canvas = Image.new("RGB", (w, h))
         canvas.paste(img_a, (-offset, 0))
         canvas.paste(img_b, (w - offset, 0))
         return canvas
-
     if transition_type == "slide_right":
         offset = int(round(w * p))
         canvas = Image.new("RGB", (w, h))
         canvas.paste(img_a, (offset, 0))
         canvas.paste(img_b, (offset - w, 0))
         return canvas
-
     if transition_type == "slide_up":
         offset = int(round(h * p))
         canvas = Image.new("RGB", (w, h))
         canvas.paste(img_a, (0, -offset))
         canvas.paste(img_b, (0, h - offset))
         return canvas
-
     if transition_type == "wipe_left":
         split_x = int(round(w * p))
         if split_x <= 0:
@@ -476,22 +356,17 @@ def render_transition_frame(
         region = img_b.crop((0, 0, split_x, h))
         canvas.paste(region, (0, 0))
         return canvas
-
     if transition_type == "circle_open":
         grid = _get_circle_grid(w, h)
-        # Soft edge feathering of width 0.04
         mask_arr = np.clip((p * 1.04 - grid) / 0.04, 0.0, 1.0)
         mask = Image.fromarray((mask_arr * 255).astype(np.uint8), mode="L")
         return Image.composite(img_b, img_a, mask)
-
     if transition_type == "zoom_in":
         zoomed_a = zoom_image(img_a, 1.0 + 0.25 * p)
         return Image.blend(zoomed_a, img_b, p)
-
     if transition_type == "zoom_out":
         zoomed_b = zoom_image(img_b, 1.0 + 0.25 * (1.0 - p))
         return Image.blend(img_a, zoomed_b, p)
-
     if transition_type == "fade_black":
         if black_img is None:
             black_img = Image.new("RGB", (w, h), (0, 0, 0))
@@ -499,7 +374,6 @@ def render_transition_frame(
             return Image.blend(img_a, black_img, p * 2.0)
         else:
             return Image.blend(black_img, img_b, (p - 0.5) * 2.0)
-
     if transition_type == "flash_white":
         if white_img is None:
             white_img = Image.new("RGB", (w, h), (255, 255, 255))
@@ -524,8 +398,6 @@ def make_card_overlay(width=WIDTH, height=HEIGHT):
         outline=(255, 200, 70, 230),
         width=3,
     )
-    draw.line([(220, box[1] + 12), (1700, box[1] + 12)], fill=(255, 215, 100, 120), width=2)
-    draw.line([(220, box[3] - 12), (1700, box[3] - 12)], fill=(255, 215, 100, 120), width=2)
     return overlay
 
 
@@ -539,6 +411,7 @@ def apply_card(img_rgb, card_rgba, alpha=1.0):
 
 
 def format_ass_time(seconds: float) -> str:
+    seconds = max(0.0, float(seconds))
     h = int(seconds // 3600)
     m = int((seconds % 3600) // 60)
     s = seconds % 60
@@ -546,14 +419,12 @@ def format_ass_time(seconds: float) -> str:
 
 
 def write_ass_file(ass_path: str, config: dict):
-    """Generate an ASS subtitle file from the web editor configuration."""
-    intro = config.get("intro", {})
-    outro = config.get("outro", {})
-    subtitles = config.get("subtitles", DEFAULT_SUBTITLES)
+    """Generate an ASS subtitle file from user's custom subtitle/text items."""
+    subtitles = config.get("subtitles", [])
 
     lines = [
         "[Script Info]",
-        "Title: เพลงมาร์ช อสม.",
+        "Title: VidMaker Subtitles",
         "ScriptType: v4.00+",
         f"PlayResX: {WIDTH}",
         f"PlayResY: {HEIGHT}",
@@ -562,63 +433,48 @@ def write_ass_file(ass_path: str, config: dict):
         "",
         "[V4+ Styles]",
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-        "Style: Default,Leelawadee UI,64,&H00FFFFFF,&H0000FFFF,&H00141414,&H80000000,-1,0,0,0,100,100,0,0,1,4.5,2.5,2,60,60,55,1",
-        "Style: Note,Leelawadee UI,52,&H00A8E6FF,&H0000FFFF,&H00141414,&H80000000,-1,0,0,0,100,100,0,0,1,4.0,2.0,2,60,60,55,1",
-        "Style: CardText,Leelawadee UI,52,&H00FFFFFF,&H0000FFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,3.5,2.0,5,80,80,40,1",
+        "Style: Subtitle,Leelawadee UI,60,&H00FFFFFF,&H0000FFFF,&H00141414,&H80000000,-1,0,0,0,100,100,0,0,1,4.5,2.5,2,60,60,55,1",
+        "Style: Banner,Leelawadee UI,50,&H00FFFFFF,&H0000FFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,3.5,2.0,5,80,80,40,1",
+        "Style: Center,Leelawadee UI,68,&H0046C8FF,&H0000FFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,5.0,3.0,5,80,80,40,1",
         "",
         "[Events]",
         "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
     ]
 
-    if intro.get("enabled", True):
-        st = format_ass_time(float(intro.get("start", 0.4)))
-        et = format_ass_time(float(intro.get("end", 5.8)))
-        l1 = intro.get("line1", "กิจกรรมคัดกรองสุขภาพประชาชนอายุ 15 ปีขึ้นไปในชุมชน")
-        l2 = intro.get("line2", "หมู่ที่ 5-9 ตำบลปกาสัย")
-        l3 = intro.get("line3", "โดย ทีม อสม. (รพ.สต.บ้านคลองเสียด)")
-        text = (
-            f"{{\\fad(500,500)\\pos(960,875)}}"
-            f"{{\\fs54\\c&H0046C8FF&}}{l1}\\N"
-            f"{{\\fs50\\c&H00FFFFFF&}}{l2}\\N"
-            f"{{\\fs46\\c&H00FFE6A8&}}{l3}"
-        )
-        lines.append(f"Dialogue: 1,{st},{et},CardText,,0,0,0,,{text}")
-
     for sub in subtitles:
-        st = format_ass_time(float(sub["start"]))
-        et = format_ass_time(float(sub["end"]))
-        style = sub.get("style", "Default")
-        txt = sub.get("text", "").strip()
-        if txt:
-            fade = 300 if style == "Note" else 150
-            lines.append(f"Dialogue: 0,{st},{et},{style},,0,0,0,,{{\\fad({fade},{fade})}}{txt}")
+        raw_text = (sub.get("text") or "").strip()
+        if not raw_text:
+            continue
+        st = format_ass_time(float(sub.get("start", 0.0)))
+        et = format_ass_time(float(sub.get("end", 3.0)))
+        style_mode = sub.get("style", "subtitle")
+        text_lines = [ln.strip() for ln in raw_text.splitlines() if ln.strip()]
+        joined_text = "\\N".join(text_lines)
 
-    if outro.get("enabled", True):
-        st = format_ass_time(float(outro.get("start", 188.0)))
-        et = format_ass_time(float(outro.get("end", 198.4)))
-        l1 = outro.get("line1", "ขอขอบคุณทีม อสม. ทุกท่าน ที่ทุ่มเทแรงกายแรงใจด้วยจิตอาสา")
-        l2 = outro.get("line2", "ร่วมดูแลและส่งเสริมสุขภาพที่ดีให้แก่พี่น้องประชาชนในชุมชนอย่างแข็งขัน")
-        l3 = outro.get("line3", "ด้วยความขอบคุณยิ่ง — รพ.สต.บ้านคลองเสียด ต.ปกาสัย")
-        text = (
-            f"{{\\fad(600,600)\\pos(960,875)}}"
-            f"{{\\fs52\\c&H0046C8FF&}}{l1}\\N"
-            f"{{\\fs46\\c&H00FFFFFF&}}{l2}\\N"
-            f"{{\\fs42\\c&H00FFE6A8&}}{l3}"
-        )
-        lines.append(f"Dialogue: 1,{st},{et},CardText,,0,0,0,,{text}")
+        if style_mode == "banner":
+            lines.append(
+                f"Dialogue: 1,{st},{et},Banner,,0,0,0,,{{\\fad(350,350)\\pos(960,885)}}{joined_text}"
+            )
+        elif style_mode == "center":
+            lines.append(
+                f"Dialogue: 1,{st},{et},Center,,0,0,0,,{{\\fad(350,350)\\pos(960,540)}}{joined_text}"
+            )
+        else:
+            lines.append(
+                f"Dialogue: 0,{st},{et},Subtitle,,0,0,0,,{{\\fad(180,180)}}{joined_text}"
+            )
 
     with open(ass_path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
 
 
 def render_project_video(config: dict, progress_cb=None):
-    """
-    Render the full 1080p MP4 video according to `config`, calling `progress_cb(dict)` along the way.
-    """
+    """Render Full HD 1080p MP4 video from user's selected photos, audio, and custom subtitles."""
     t0 = time.time()
     ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
-    audio_path = config.get("audio_path", DEFAULT_AUDIO)
-    output_filename = config.get("output_filename", "วิดีโอ_เพลงมาร์ช_อสม.mp4")
+    audio_path = config.get("audio_path")
+    has_audio = bool(audio_path and os.path.exists(audio_path))
+    output_filename = config.get("output_filename", "vidmaker_output.mp4")
     output_path = os.path.join(BASE_DIR, output_filename)
 
     active_images = [img for img in config.get("images", []) if img.get("enabled", True)]
@@ -626,41 +482,30 @@ def render_project_video(config: dict, progress_cb=None):
     if num_images == 0:
         raise RuntimeError("กรุณาเลือกรูปภาพอย่างน้อย 1 รูป")
 
-    duration = get_audio_duration(audio_path)
-    total_frames = int(round(duration * FPS))
+    duration = float(config.get("duration") or (get_audio_duration(audio_path) if has_audio else num_images * 3.0))
+    total_frames = max(30, int(round(duration * FPS)))
     default_fade_sec = float(config.get("fade_duration", 0.6))
 
-    intro_cfg = config.get("intro", {})
-    intro_enabled = intro_cfg.get("enabled", True)
-    intro_start = float(intro_cfg.get("start", 0.40))
-    intro_end = float(intro_cfg.get("end", 5.80))
-    intro_fade = 0.50
+    subtitles = config.get("subtitles", [])
+    banner_intervals = [
+        (float(s.get("start", 0)), float(s.get("end", 0)))
+        for s in subtitles
+        if s.get("style") == "banner" and (s.get("text") or "").strip()
+    ]
 
-    outro_cfg = config.get("outro", {})
-    outro_enabled = outro_cfg.get("enabled", True)
-    outro_start = float(outro_cfg.get("start", 188.00))
-    outro_end = float(outro_cfg.get("end", 198.40))
-    outro_fade = 0.60
-
-    ass_filename = "lyrics_studio.ass"
+    ass_filename = "custom_subtitles.ass"
     ass_path = os.path.join(BASE_DIR, ass_filename)
     write_ass_file(ass_path, config)
-    # Also keep lyrics.ass updated
-    write_ass_file(os.path.join(BASE_DIR, "lyrics.ass"), config)
 
     def get_card_alpha(sec: float) -> float:
-        if intro_enabled and intro_start <= sec <= intro_end:
-            if sec < intro_start + intro_fade:
-                return smoothstep((sec - intro_start) / intro_fade)
-            elif sec > intro_end - intro_fade:
-                return smoothstep((intro_end - sec) / intro_fade)
-            return 1.0
-        if outro_enabled and outro_start <= sec <= outro_end:
-            if sec < outro_start + outro_fade:
-                return smoothstep((sec - outro_start) / outro_fade)
-            elif sec > outro_end - outro_fade:
-                return smoothstep((outro_end - sec) / outro_fade)
-            return 1.0
+        for st, et in banner_intervals:
+            if st <= sec <= et:
+                fade = min(0.4, (et - st) * 0.25)
+                if fade > 0 and sec < st + fade:
+                    return smoothstep((sec - st) / fade)
+                if fade > 0 and sec > et - fade:
+                    return smoothstep((et - sec) / fade)
+                return 1.0
         return 0.0
 
     cmd = [
@@ -673,18 +518,20 @@ def render_project_video(config: dict, progress_cb=None):
         "-s", f"{WIDTH}x{HEIGHT}",
         "-r", str(FPS),
         "-i", "-",
-        "-i", audio_path,
+    ]
+    if has_audio:
+        cmd.extend(["-i", audio_path])
+
+    cmd.extend([
         "-vf", f"ass={ass_filename}",
         "-c:v", "libx264",
         "-preset", "fast",
         "-crf", "18",
         "-pix_fmt", "yuv420p",
-        "-c:a", "aac",
-        "-b:a", "192k",
-        "-shortest",
-        "-movflags", "+faststart",
-        output_path,
-    ]
+    ])
+    if has_audio:
+        cmd.extend(["-c:a", "aac", "-b:a", "192k", "-shortest"])
+    cmd.extend(["-movflags", "+faststart", output_path])
 
     proc = subprocess.Popen(cmd, cwd=BASE_DIR, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
     boundaries = [int(round(i * total_frames / num_images)) for i in range(num_images + 1)]
@@ -692,8 +539,8 @@ def render_project_video(config: dict, progress_cb=None):
     black_img = Image.new("RGB", (WIDTH, HEIGHT), (0, 0, 0))
     white_img = Image.new("RGB", (WIDTH, HEIGHT), (255, 255, 255))
     card_rgba = make_card_overlay(WIDTH, HEIGHT)
-    intro_fade_frames = int(round(0.5 * FPS))
-    outro_fade_frames = int(round(0.8 * FPS))
+    intro_fade_frames = int(round(0.4 * FPS))
+    outro_fade_frames = int(round(0.6 * FPS))
 
     curr_img = prepare_frame(active_images[0]["abs_path"])
     next_img = prepare_frame(active_images[1]["abs_path"]) if num_images > 1 else curr_img
@@ -705,7 +552,6 @@ def render_project_video(config: dict, progress_cb=None):
         fade_sec = float(active_images[i].get("fade_duration", default_fade_sec))
         fade_frames = max(2, int(round(fade_sec * FPS)))
 
-        # If using ken_burns, we animate slow zoom during hold or during transition
         curr_bytes = curr_img.tobytes()
         curr_card_bytes = None
         trans_start = max(start_f, end_f - fade_frames) if i < num_images - 1 else end_f

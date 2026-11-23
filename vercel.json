@@ -1,7 +1,6 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/", "destination": "/static/index.html" },
-    { "source": "/audio", "destination": "/static/default_audio.mp3" }
+    { "source": "/", "destination": "/static/index.html" }
   ]
 }

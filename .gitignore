@@ -1,4 +1,4 @@
-# Ignore user photo folders, temporary uploads, and rendered MP4 outputs
+# Ignore local user media, uploads, and rendered outputs
 1/
 2/
 3/
@@ -6,6 +6,11 @@
 5/
 uploads/
 *.mp4
+*.mp3
+*.ass
+*.srt
+lyrics.txt
+static/default_audio.mp3
 __pycache__/
 *.pyc
 .env

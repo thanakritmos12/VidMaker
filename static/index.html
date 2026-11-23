@@ -18,6 +18,7 @@
       --ai: #7c3aed;
       --ai-light: #f5f3ff;
       --green: #16a34a;
+      --danger: #dc2626;
       --text: #0f172a;
       --muted: #64748b;
     }
@@ -79,16 +80,16 @@
 
     .btn {
       font-family: inherit;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 600;
-      padding: 10px 18px;
+      padding: 9px 16px;
       border-radius: 10px;
       border: 1px solid transparent;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
+      gap: 6px;
       transition: all 0.15s ease;
       text-decoration: none;
     }
@@ -126,8 +127,17 @@
       background: #e2e8f0;
     }
 
+    .btn-danger {
+      background: #fef2f2;
+      border-color: #fecaca;
+      color: var(--danger);
+    }
+    .btn-danger:hover {
+      background: #fee2e2;
+    }
+
     .layout {
-      max-width: 1400px;
+      max-width: 1440px;
       margin: 0 auto;
       padding: 24px;
       display: grid;
@@ -136,7 +146,7 @@
       align-items: start;
     }
 
-    @media (max-width: 1050px) {
+    @media (max-width: 1080px) {
       .layout {
         grid-template-columns: 1fr;
       }
@@ -146,11 +156,11 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 22px;
+      padding: 20px 22px;
       box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 15px;
     }
 
     .box-header {
@@ -162,7 +172,7 @@
     }
 
     .box-header h2 {
-      font-size: 16.5px;
+      font-size: 16px;
       font-weight: 700;
     }
 
@@ -170,14 +180,14 @@
       border: 2px dashed #93c5fd;
       background: var(--primary-light);
       border-radius: 14px;
-      padding: 28px 20px;
+      padding: 26px 20px;
       text-align: center;
       cursor: pointer;
       transition: all 0.15s;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
     .insert-dropzone:hover, .insert-dropzone.dragover {
       border-color: var(--primary);
@@ -185,12 +195,12 @@
     }
 
     .insert-icon {
-      width: 56px;
-      height: 56px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       background: var(--primary);
       color: #fff;
-      font-size: 28px;
+      font-size: 26px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -198,7 +208,7 @@
 
     .photos-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
       gap: 14px;
     }
 
@@ -215,7 +225,7 @@
     .photo-thumb {
       position: relative;
       width: 100%;
-      height: 136px;
+      height: 132px;
       background: #0f172a;
       cursor: pointer;
     }
@@ -268,7 +278,7 @@
       align-items: center;
     }
 
-    select, input[type="text"] {
+    select, input[type="text"], input[type="number"], textarea {
       font-family: inherit;
       font-size: 13px;
       padding: 7px 10px;
@@ -277,6 +287,12 @@
       background: #fff;
       color: var(--text);
       width: 100%;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 54px;
+      line-height: 1.45;
     }
 
     .ai-tag {
@@ -318,6 +334,76 @@
       color: var(--muted);
     }
 
+    /* Flexible Subtitle Builder Cards */
+    .sub-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sub-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .time-inputs-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .time-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 3px 8px;
+    }
+
+    .time-input-wrap span {
+      font-size: 11.5px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .time-input-wrap input {
+      border: none;
+      width: 64px;
+      padding: 3px 4px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      text-align: center;
+    }
+    .time-input-wrap input:focus {
+      outline: none;
+    }
+
+    .mini-stamp-btn {
+      font-family: inherit;
+      font-size: 11px;
+      padding: 3px 7px;
+      border-radius: 6px;
+      border: 1px solid #bfdbfe;
+      background: var(--primary-light);
+      color: var(--primary);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .mini-stamp-btn:hover {
+      background: #dbeafe;
+    }
+
     .player-box {
       position: relative;
       width: 100%;
@@ -327,21 +413,18 @@
       overflow: hidden;
     }
 
-    #previewCanvas, #renderedVideo {
+    #previewCanvas {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
-    }
-    #renderedVideo {
-      display: none;
     }
 
     .status-badge {
       position: absolute;
       top: 10px;
       left: 10px;
-      background: rgba(15, 23, 42, 0.8);
+      background: rgba(15, 23, 42, 0.82);
       color: #fff;
       font-size: 12px;
       padding: 4px 12px;
@@ -396,12 +479,12 @@
       <div class="logo-icon">🎬</div>
       <div>
         <h1>VidMaker — ระบบสร้างวิดีโอพร้อม AI แนะนำ Transition</h1>
-        <p>เลือกรูปภาพที่ต้องการใช้ • เลือกเอฟเฟกต์เปลี่ยนภาพแต่ละรูป (หรือให้ AI แนะนำ) • สร้างไฟล์วิดีโอ</p>
+        <p>เลือกรูปภาพ • เลือก Transition (หรือให้ AI แนะนำ) • กำหนดข้อความ/ซับไตเติ้ลได้อิสระทุกช่วงเวลา</p>
       </div>
     </div>
     <div style="display:flex; gap:10px; flex-wrap:wrap;">
       <button class="btn btn-primary" onclick="document.getElementById('photoInput').click()">
-        ＋ เลือกรูปภาพที่จะใช้
+        ＋ เลือกรูปภาพ
       </button>
       <button class="btn btn-ai" onclick="applyAI()">
         ✨ ให้ AI แนะนำ Transition
@@ -413,8 +496,10 @@
   </header>
 
   <main class="layout">
+    <!-- Left Column -->
     <div style="display:flex; flex-direction:column; gap:20px;">
 
+      <!-- 1. Photos -->
       <section class="box">
         <div class="box-header">
           <h2>1. รูปภาพในวิดีโอ (<span id="photoCount">0</span> รูป)</h2>
@@ -423,29 +508,30 @@
               ＋ กดเลือกรูปภาพเพิ่ม
             </button>
             <button id="clearBtn" class="btn btn-light" style="display:none;" onclick="clearPhotos()">
-              ล้างทั้งหมด
+              ล้างรูปทั้งหมด
             </button>
           </div>
         </div>
 
         <div id="dropzone" class="insert-dropzone" onclick="document.getElementById('photoInput').click()">
           <div class="insert-icon">＋</div>
-          <div style="font-size:16px; font-weight:700; color:var(--primary);">คลิกที่นี่เพื่อเลือกรูปภาพที่ต้องการใช้</div>
-          <div style="font-size:13px; color:var(--muted);">สามารถเลือกทีเดียวหลายรูป หรือลากไฟล์รูปมาวางในกรอบนี้ได้เลย</div>
+          <div style="font-size:15.5px; font-weight:700; color:var(--primary);">คลิกที่นี่เพื่อเลือกรูปภาพที่ต้องการใช้</div>
+          <div style="font-size:12.5px; color:var(--muted);">เลือกทีเดียวหลายรูป หรือลากไฟล์รูปมาวางในกรอบนี้ได้เลย</div>
         </div>
 
         <div id="photosGrid" class="photos-grid" style="display:none;"></div>
       </section>
 
+      <!-- 2. AI Transition Recommendation -->
       <section class="box">
         <div class="box-header">
-          <h2>2. โหมด AI แนะนำ Transition ให้แต่ละรูป</h2>
+          <h2>2. เลือก Transition หรือให้ AI แนะนำอัตโนมัติ</h2>
         </div>
 
         <div class="ai-modes">
           <button class="ai-mode-btn active" onclick="pickAIMode('smart_auto', this)">
             <strong>🌟 AI วิเคราะห์อัตโนมัติ (แนะนำ)</strong>
-            <span>วิเคราะห์สีและสัดส่วนของแต่ละรูปคู่กับจังหวะเพลง</span>
+            <span>วิเคราะห์โทนสี ความสว่าง และสัดส่วนของแต่ละรูป</span>
           </button>
           <button class="ai-mode-btn" onclick="pickAIMode('dignified', this)">
             <strong>🏛️ นุ่มนวล สุภาพ</strong>
@@ -453,7 +539,7 @@
           </button>
           <button class="ai-mode-btn" onclick="pickAIMode('upbeat_march', this)">
             <strong>🥁 คึกคัก สดใส</strong>
-            <span>เน้นสไลด์ภาพ ซูมเข้า และแสงแฟลชตามจังหวะเพลง</span>
+            <span>เน้นสไลด์ภาพ ซูมเข้า และแสงแฟลช</span>
           </button>
           <button class="ai-mode-btn" onclick="pickAIMode('variety', this)">
             <strong>🎨 หลากหลายไม่ซ้ำกัน</strong>
@@ -463,7 +549,7 @@
 
         <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; background:var(--ai-light); padding:12px 14px; border-radius:10px; border:1px solid #ddd6fe;">
           <span id="aiStatusText" style="font-size:13px; color:#5b21b6;">
-            กดปุ่มเพื่อให้ AI เลือก Transition ที่เหมาะสมที่สุดให้รูปทุกรูปที่คุณใส่ไว้
+            กดปุ่มเพื่อให้ AI วิเคราะห์รูปภาพและตั้งค่า Transition ให้ทุกรูปอัตโนมัติ
           </span>
           <button class="btn btn-ai" onclick="applyAI()">
             ✨ ให้ AI ตั้งค่าให้ทุกรูป
@@ -476,64 +562,105 @@
           <button class="btn btn-light" onclick="applyBulkTransition()">ใช้กับทุกรูป</button>
         </div>
       </section>
+
+      <!-- 3. Flexible Subtitles & Text Overlays Builder -->
+      <section class="box">
+        <div class="box-header">
+          <div>
+            <h2>3. ข้อความและซับไตเติ้ลในคลิป (<span id="subCount">0</span> รายการ)</h2>
+            <p style="font-size:12.5px; color:var(--muted);">
+              กำหนดข้อความ (พิมพ์ได้หลายบรรทัด), เลือกรูปแบบการแสดงผล และระบุช่วงเวลาเริ่มต้น–สิ้นสุดของแต่ละข้อความได้อย่างอิสระ
+            </p>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="addSubtitleEntry()">
+              ＋ เพิ่มข้อความ / ซับไตเติ้ล
+            </button>
+            <button id="clearSubsBtn" class="btn btn-light" style="display:none;" onclick="clearAllSubtitles()">
+              ล้างข้อความทั้งหมด
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Bulk Paste Helper -->
+        <details style="border:1px solid var(--border); border-radius:10px; padding:10px 14px; background:#f8fafc;">
+          <summary style="font-size:13px; font-weight:600; cursor:pointer; color:var(--primary);">
+            📋 วางข้อความ/เนื้อเพลงหลายท่อนรวดเดียว (แบ่งเวลาให้อัตโนมัติ)
+          </summary>
+          <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+            <p style="font-size:12px; color:var(--muted);">
+              พิมพ์หรือวางข้อความบรรทัดละ 1 ท่อน ระบบจะสร้างรายการซับไตเติ้ลและเฉลี่ยเวลาเริ่มต้น-สิ้นสุดให้ตามความยาวคลิป (สามารถปรับแก้เวลาแต่ละท่อนทีหลังได้)
+            </p>
+            <textarea id="bulkLyricsInput" rows="4" placeholder="ตัวอย่าง:&#10;ยินดีต้อนรับสู่กิจกรรมของเรา&#10;ท่อนที่ 1...&#10;ท่อนที่ 2...&#10;ขอขอบคุณทุกท่าน"></textarea>
+            <div style="display:flex; justify-content:flex-end;">
+              <button class="btn btn-primary" onclick="importBulkLines()">
+                ＋ สร้างรายการซับไตเติ้ลจากข้อความที่วาง
+              </button>
+            </div>
+          </div>
+        </details>
+
+        <!-- Dynamic List of Subtitle/Text Entries -->
+        <div id="subtitlesContainer" style="display:flex; flex-direction:column; gap:10px;"></div>
+      </section>
     </div>
 
+    <!-- Right Column: Video Preview, Audio & Duration -->
     <div style="display:flex; flex-direction:column; gap:20px; position:sticky; top:84px;">
       <section class="box">
         <div class="box-header">
-          <h2>3. ดูตัวอย่างวิดีโอ & สร้างไฟล์วิดีโอ</h2>
+          <h2>4. ดูตัวอย่างวิดีโอ & สร้างไฟล์</h2>
         </div>
 
         <div class="player-box">
           <canvas id="previewCanvas" width="1920" height="1080"></canvas>
-          <video id="renderedVideo" controls></video>
           <div id="statusBadge" class="status-badge">ยังไม่ได้เลือกรูปภาพ</div>
         </div>
 
         <div style="display:flex; align-items:center; gap:10px;">
-          <span id="timeLabel" style="font-size:12.5px; font-weight:600; color:var(--primary); min-width:88px;">00:00 / 03:18</span>
-          <input type="range" id="scrubber" min="0" max="198.86" step="0.05" value="0"
+          <span id="timeLabel" style="font-size:12.5px; font-weight:600; color:var(--primary); min-width:95px;">00:00.0 / 00:30.0</span>
+          <input type="range" id="scrubber" min="0" max="30" step="0.1" value="0"
                  style="flex:1; accent-color:var(--primary); cursor:pointer;"
                  oninput="seekTo(this.value)" />
         </div>
 
         <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-          <button id="playBtn" class="btn btn-primary" onclick="togglePlay()">▶ เล่นตัวอย่างพร้อมเพลง</button>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:12.5px; color:var(--muted);" id="audioNameText">🎵 เพลงมาร์ช อสม.mp3</span>
-            <button class="btn btn-light" style="padding:6px 10px; font-size:12px;" onclick="document.getElementById('audioInput').click()">
-              เปลี่ยนเพลง MP3
+          <div style="display:flex; gap:8px;">
+            <button id="playBtn" class="btn btn-primary" onclick="togglePlay()">▶ เล่นตัวอย่าง</button>
+            <button class="btn btn-light" onclick="addSubtitleAtCurrentTime()">
+              ＋ เพิ่มซับตรงเวลานี้
             </button>
           </div>
+          <span id="secPerImgBadge" style="font-size:12px; color:var(--muted);">เวลาต่อรูป: -</span>
         </div>
 
-        <details style="border:1px solid var(--border); border-radius:10px; padding:10px 14px; background:#f8fafc;">
-          <summary style="font-size:13.5px; font-weight:600; cursor:pointer; color:#334155;">
-            ⚙️ ตั้งค่าข้อความเปิดคลิป / ท้ายคลิป / ซับไตเติ้ลเนื้อร้อง (คลิกเพื่อเปิด/ปิด)
-          </summary>
-          <div style="display:flex; flex-direction:column; gap:10px; margin-top:12px;">
-            <label style="font-size:13px; display:flex; align-items:center; gap:6px;">
-              <input type="checkbox" id="subEnabled" checked onchange="drawFrame(CURRENT_TIME)" />
-              แสดงซับไตเติ้ลเนื้อร้องเพลงมาร์ช อสม.
-            </label>
-            <div style="display:flex; flex-direction:column; gap:5px;">
-              <label style="font-size:12px; font-weight:600; color:var(--primary);">
-                <input type="checkbox" id="introEnabled" checked onchange="syncBanners()" /> ข้อความเปิดคลิป (5 วินาทีแรก)
-              </label>
-              <input type="text" id="intro1" oninput="syncBanners()" />
-              <input type="text" id="intro2" oninput="syncBanners()" />
-              <input type="text" id="intro3" oninput="syncBanners()" />
+        <!-- Audio & Total Duration Control -->
+        <div style="background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:12px 14px; display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+            <div>
+              <div style="font-size:13px; font-weight:700;" id="audioNameText">🎵 เพลงประกอบ: ยังไม่ได้เลือกไฟล์เพลง</div>
+              <div style="font-size:11.5px; color:var(--muted);">หากเลือกไฟล์ MP3 ความยาวคลิปจะปรับตามเพลงอัตโนมัติ</div>
             </div>
-            <div style="display:flex; flex-direction:column; gap:5px;">
-              <label style="font-size:12px; font-weight:600; color:var(--primary);">
-                <input type="checkbox" id="outroEnabled" checked onchange="syncBanners()" /> ข้อความขอบคุณท้ายคลิป
-              </label>
-              <input type="text" id="outro1" oninput="syncBanners()" />
-              <input type="text" id="outro2" oninput="syncBanners()" />
-              <input type="text" id="outro3" oninput="syncBanners()" />
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-light" style="padding:6px 12px; font-size:12.5px;" onclick="document.getElementById('audioInput').click()">
+                📂 เลือกไฟล์เพลง MP3
+              </button>
+              <button id="removeAudioBtn" class="btn btn-danger" style="padding:6px 10px; font-size:12px; display:none;" onclick="removeAudio()">
+                ✕ เอาเพลงออก
+              </button>
             </div>
           </div>
-        </details>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; border-top:1px solid var(--border); padding-top:8px;">
+            <label style="font-size:12.5px; font-weight:600; color:#334155;">⏱ ความยาวคลิปรวม (วินาที):</label>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <input type="number" id="customDurationInput" min="3" max="3600" step="1" value="30"
+                     style="width:90px; text-align:center; font-weight:600;"
+                     onchange="onChangeDuration(this.value)" />
+              <span style="font-size:12px; color:var(--muted);">วินาที</span>
+            </div>
+          </div>
+        </div>
 
         <button class="btn btn-green" style="width:100%; font-size:15.5px; padding:13px;" onclick="renderMP4()">
           🎬 สร้างและดาวน์โหลดวิดีโอ (Full HD)
@@ -553,12 +680,12 @@
       </div>
       <div id="renderDoneBtns" style="display:none; justify-content:flex-end; gap:8px; margin-top:6px;">
         <button class="btn btn-light" onclick="cancelOrCloseRender()">ปิด</button>
-        <a id="downloadLink" class="btn btn-green" href="#" download="วิดีโอ_เพลงมาร์ช_อสม.mp4">⬇ ดาวน์โหลดวิดีโอ</a>
+        <a id="downloadLink" class="btn btn-green" href="#" download="vidmaker_output.mp4">⬇ ดาวน์โหลดวิดีโอ</a>
       </div>
     </div>
   </div>
 
-  <audio id="bgAudio" src="/audio" crossorigin="anonymous" preload="auto"></audio>
+  <audio id="bgAudio" crossorigin="anonymous" preload="auto"></audio>
 
   <script>
     const FALLBACK_CATALOG = [
@@ -576,72 +703,22 @@
       { id: "cut", name: "Hard Cut (ตัดสลับภาพทันที)" }
     ];
 
-    const FALLBACK_SUBTITLES = [
-      { start: 6.40, end: 11.20, text: "♪ เพลงมาร์ช อสม. (Intro) ♪", style: "Note" },
-      { start: 11.60, end: 15.80, text: "พวกเรา อสม.", style: "Default" },
-      { start: 15.90, end: 20.90, text: "ไม่เคยย่นย่อ งานต่อต้านโรคภัย", style: "Default" },
-      { start: 21.10, end: 25.40, text: "อสม. ขอทุ่ม จิตเทใจ", style: "Default" },
-      { start: 25.60, end: 30.40, text: "ช่วยเหลือคนไทย ทั่วเมืองไทยให้รุ่งเรือง", style: "Default" },
-      { start: 30.80, end: 35.30, text: "โรคร้าย กล้ำกรายเมื่อไรก็ช่าง", style: "Default" },
-      { start: 35.50, end: 40.10, text: "พวกเราตั้ง ใจปัดภัยหนุนเนื่อง", style: "Default" },
-      { start: 40.40, end: 44.90, text: "อสม. ขอชนทั่วมุมเมือง", style: "Default" },
-      { start: 45.10, end: 50.00, text: "เข้าใจในเรื่อง เบื้องต้นการปฐมพยาบาล", style: "Default" },
-      { start: 50.70, end: 55.20, text: "เทิดทูน องค์พระภูมิพล", style: "Default" },
-      { start: 55.40, end: 60.30, text: "และล้นเกล้าจักรีวงศ์เหนือดวงมาลย์", style: "Default" },
-      { start: 60.50, end: 65.10, text: "ทำด้วยจิตกุศลช่วยปวงชน เพื่อเป็นทาน", style: "Default" },
-      { start: 65.30, end: 70.20, text: "อสม.หมายมั่น สรรค์สร้างสังคมไทย", style: "Default" },
-      { start: 70.70, end: 75.00, text: "พวกเรา อสม.", style: "Default" },
-      { start: 75.20, end: 79.70, text: "มุ่งผดุงต่อ งานช่วยอันยิ่งใหญ่", style: "Default" },
-      { start: 79.90, end: 84.40, text: "ดำเนินงาน น้อมนำให้คนไทย", style: "Default" },
-      { start: 84.60, end: 89.60, text: "ทุกคนสิ้นภัย สุขภาพดี ทั่วกันเอย", style: "Default" },
-      { start: 90.00, end: 98.80, text: "♪ (ดนตรีโซโล่ / Solo) ♪", style: "Note" },
-      { start: 99.20, end: 103.40, text: "พวกเรา อสม.", style: "Default" },
-      { start: 103.60, end: 108.50, text: "ไม่เคยย่นย่อ งานต่อต้านโรคภัย", style: "Default" },
-      { start: 108.70, end: 113.00, text: "อสม. ขอทุ่ม จิตเทใจ", style: "Default" },
-      { start: 113.20, end: 118.00, text: "ช่วยเหลือคนไทย ทั่วเมืองไทยให้รุ่งเรือง", style: "Default" },
-      { start: 118.50, end: 122.90, text: "โรคร้าย กล้ำกรายเมื่อไรก็ช่าง", style: "Default" },
-      { start: 123.10, end: 127.70, text: "พวกเราตั้ง ใจปัดภัยหนุนเนื่อง", style: "Default" },
-      { start: 128.00, end: 132.50, text: "อสม. ขอชนทั่วมุมเมือง", style: "Default" },
-      { start: 132.70, end: 137.60, text: "เข้าใจในเรื่อง เบื้องต้นการปฐมพยาบาล", style: "Default" },
-      { start: 138.30, end: 142.80, text: "เทิดทูน องค์พระภูมิพล", style: "Default" },
-      { start: 143.00, end: 147.90, text: "และล้นเกล้า จักรีวงศ์เหนือดวงมาลย์", style: "Default" },
-      { start: 148.10, end: 152.70, text: "ทำด้วยจิตกุศลช่วยปวงชน เพื่อเป็นทาน", style: "Default" },
-      { start: 152.90, end: 157.80, text: "อสม.หมายมั่น สรรค์สร้างสังคมไทย", style: "Default" },
-      { start: 158.30, end: 162.50, text: "พวกเรา อสม.", style: "Default" },
-      { start: 162.70, end: 167.20, text: "มุ่งผดุงต่อ งานช่วยอันยิ่งใหญ่", style: "Default" },
-      { start: 167.50, end: 172.00, text: "ดำเนินงาน น้อมนำให้คนไทย", style: "Default" },
-      { start: 172.20, end: 177.40, text: "ทุกคนสิ้นภัย สุขภาพดี ทั่วกันเอย", style: "Default" }
-    ];
-
     let HAS_PYTHON_BACKEND = false;
+    let HAS_AUDIO = false;
     let PROJECT = {
-      audio_name: "เพลงมาร์ช อสม.mp3",
-      audio_url: "/static/default_audio.mp3",
-      duration: 198.86,
-      transitions_catalog: FALLBACK_CATALOG,
-      subtitles: FALLBACK_SUBTITLES,
-      intro: {
-        enabled: true,
-        start: 0.4,
-        end: 5.8,
-        line1: "กิจกรรมคัดกรองสุขภาพประชาชนอายุ 15 ปีขึ้นไปในชุมชน",
-        line2: "หมู่ที่ 5-9 ตำบลปกาสัย",
-        line3: "โดย ทีม อสม. (รพ.สต.บ้านคลองเสียด)"
-      },
-      outro: {
-        enabled: true,
-        start: 188.0,
-        end: 198.4,
-        line1: "ขอขอบคุณทีม อสม. ทุกท่าน ที่ทุ่มเทแรงกายแรงใจด้วยจิตอาสา",
-        line2: "ร่วมดูแลและส่งเสริมสุขภาพที่ดีให้แก่พี่น้องประชาชนในชุมชนอย่างแข็งขัน",
-        line3: "ด้วยความขอบคุณยิ่ง — รพ.สต.บ้านคลองเสียด ต.ปกาสัย"
-      }
+      audio_name: null,
+      audio_url: null,
+      duration: 30.0,
+      transitions_catalog: FALLBACK_CATALOG
     };
 
     let PHOTOS = [];
+    // SUBTITLES: array of { id, start, end, style: 'subtitle' | 'banner' | 'center', text: '...\n...' }
+    let SUBTITLES = [];
     let AI_MODE = 'smart_auto';
     let CURRENT_TIME = 0.0;
     let IS_PLAYING = false;
+    let LAST_PLAY_TICK = 0;
     let TEST_ANIM = null;
     let IS_BROWSER_RECORDING = false;
 
@@ -653,8 +730,8 @@
     function fmt(sec) {
       sec = Math.max(0, Number(sec) || 0);
       const m = Math.floor(sec / 60);
-      const s = Math.floor(sec % 60);
-      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      const s = (sec % 60).toFixed(1).padStart(4, '0');
+      return `${String(m).padStart(2, '0')}:${s}`;
     }
 
     function smooth(t) {
@@ -668,7 +745,7 @@
         if (res.ok) {
           const serverProj = await res.json();
           if (serverProj && serverProj.transitions_catalog) {
-            PROJECT = serverProj;
+            PROJECT.transitions_catalog = serverProj.transitions_catalog;
             HAS_PYTHON_BACKEND = true;
           }
         }
@@ -676,35 +753,16 @@
         HAS_PYTHON_BACKEND = false;
       }
 
-      if (!HAS_PYTHON_BACKEND) {
-        audioEl.src = '/static/default_audio.mp3';
-      }
-
       audioEl.onloadedmetadata = () => {
-        if (audioEl.duration && isFinite(audioEl.duration)) {
-          PROJECT.duration = audioEl.duration;
-          document.getElementById('scrubber').max = PROJECT.duration;
-          drawFrame(CURRENT_TIME);
+        if (HAS_AUDIO && audioEl.duration && isFinite(audioEl.duration)) {
+          setProjectDuration(Number(audioEl.duration.toFixed(1)));
         }
       };
-
-      document.getElementById('scrubber').max = PROJECT.duration;
-      document.getElementById('audioNameText').textContent = `🎵 ${PROJECT.audio_name}`;
 
       const bulkSel = document.getElementById('bulkTransitionSelect');
       bulkSel.innerHTML = PROJECT.transitions_catalog
         .map(t => `<option value="${t.id}">${t.name}</option>`)
         .join('');
-
-      document.getElementById('introEnabled').checked = PROJECT.intro.enabled;
-      document.getElementById('intro1').value = PROJECT.intro.line1;
-      document.getElementById('intro2').value = PROJECT.intro.line2;
-      document.getElementById('intro3').value = PROJECT.intro.line3;
-
-      document.getElementById('outroEnabled').checked = PROJECT.outro.enabled;
-      document.getElementById('outro1').value = PROJECT.outro.line1;
-      document.getElementById('outro2').value = PROJECT.outro.line2;
-      document.getElementById('outro3').value = PROJECT.outro.line3;
 
       const dz = document.getElementById('dropzone');
       dz.ondragover = (e) => { e.preventDefault(); dz.classList.add('dragover'); };
@@ -717,9 +775,34 @@
         }
       };
 
+      setProjectDuration(30.0);
       renderPhotosList();
+      renderSubtitlesList();
       drawFrame(0);
       requestAnimationFrame(loop);
+    }
+
+    function setProjectDuration(sec) {
+      sec = Math.max(3, Number(sec) || 30);
+      PROJECT.duration = sec;
+      document.getElementById('scrubber').max = sec;
+      document.getElementById('customDurationInput').value = Math.round(sec * 10) / 10;
+      if (CURRENT_TIME > sec) CURRENT_TIME = 0;
+      updateSecPerPhotoBadge();
+      drawFrame(CURRENT_TIME);
+    }
+
+    function onChangeDuration(val) {
+      setProjectDuration(parseFloat(val) || 30);
+    }
+
+    function updateSecPerPhotoBadge() {
+      const el = document.getElementById('secPerImgBadge');
+      if (PHOTOS.length === 0) {
+        el.textContent = 'เวลาต่อรูป: -';
+      } else {
+        el.textContent = `เวลาต่อรูป: ${(PROJECT.duration / PHOTOS.length).toFixed(1)} วินาที`;
+      }
     }
 
     function loadImg(url, cb) {
@@ -752,6 +835,7 @@
               loadImg(item.url);
             });
             document.getElementById('photoInput').value = '';
+            if (!HAS_AUDIO) setProjectDuration(Math.max(10, PHOTOS.length * 3.5));
             renderPhotosList();
             drawFrame(CURRENT_TIME);
             return;
@@ -759,7 +843,6 @@
         } catch (_) {}
       }
 
-      // Client-side instant load (works on Vercel with zero upload size limits)
       for (const f of fileList) {
         const blobUrl = URL.createObjectURL(f);
         const item = {
@@ -774,6 +857,7 @@
         loadImg(blobUrl);
       }
       document.getElementById('photoInput').value = '';
+      if (!HAS_AUDIO) setProjectDuration(Math.max(10, PHOTOS.length * 3.5));
       renderPhotosList();
       drawFrame(CURRENT_TIME);
     }
@@ -781,6 +865,8 @@
     async function onSelectAudio(fileList) {
       if (!fileList || fileList.length === 0) return;
       const file = fileList[0];
+      HAS_AUDIO = true;
+      document.getElementById('removeAudioBtn').style.display = 'inline-flex';
 
       if (HAS_PYTHON_BACKEND) {
         try {
@@ -789,12 +875,10 @@
           const res = await fetch('/api/upload-audio', { method: 'POST', body: fd });
           if (res.ok) {
             const data = await res.json();
-            PROJECT.duration = data.duration;
             PROJECT.audio_url = data.audio_url;
             audioEl.src = data.audio_url;
-            document.getElementById('scrubber').max = data.duration;
-            document.getElementById('audioNameText').textContent = `🎵 ${data.audio_name}`;
-            drawFrame(CURRENT_TIME);
+            document.getElementById('audioNameText').textContent = `🎵 เพลงประกอบ: ${data.audio_name}`;
+            setProjectDuration(data.duration);
             return;
           }
         } catch (_) {}
@@ -802,11 +886,21 @@
 
       const blobUrl = URL.createObjectURL(file);
       audioEl.src = blobUrl;
-      document.getElementById('audioNameText').textContent = `🎵 ${file.name}`;
+      document.getElementById('audioNameText').textContent = `🎵 เพลงประกอบ: ${file.name}`;
+    }
+
+    function removeAudio() {
+      HAS_AUDIO = false;
+      audioEl.pause();
+      audioEl.removeAttribute('src');
+      document.getElementById('audioNameText').textContent = '🎵 เพลงประกอบ: ยังไม่ได้เลือกไฟล์เพลง';
+      document.getElementById('removeAudioBtn').style.display = 'none';
+      document.getElementById('audioInput').value = '';
     }
 
     function renderPhotosList() {
       document.getElementById('photoCount').textContent = PHOTOS.length;
+      updateSecPerPhotoBadge();
       const grid = document.getElementById('photosGrid');
       const clearBtn = document.getElementById('clearBtn');
 
@@ -878,7 +972,141 @@
       btn.classList.add('active');
     }
 
-    /* Client-Side Computer Vision AI Analyzer (Runs in browser on Vercel & locally) */
+    /* Flexible Subtitles & Text Overlays Management */
+    function renderSubtitlesList() {
+      document.getElementById('subCount').textContent = SUBTITLES.length;
+      const container = document.getElementById('subtitlesContainer');
+      const clearBtn = document.getElementById('clearSubsBtn');
+      clearBtn.style.display = SUBTITLES.length > 0 ? 'inline-flex' : 'none';
+      container.innerHTML = '';
+
+      if (SUBTITLES.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center; padding:18px; border:1px dashed var(--border); border-radius:12px; color:var(--muted); font-size:13px;">
+            ยังไม่มีข้อความหรือซับไตเติ้ล — กดปุ่ม <strong>"＋ เพิ่มข้อความ / ซับไตเติ้ล"</strong> ด้านบนเพื่อเพิ่มข้อความในช่วงเวลาที่ต้องการ
+          </div>
+        `;
+        return;
+      }
+
+      SUBTITLES.forEach((sub, idx) => {
+        const card = document.createElement('div');
+        card.className = 'sub-card';
+        card.innerHTML = `
+          <div class="sub-card-top">
+            <div class="time-inputs-group">
+              <strong style="font-size:13px; color:var(--text); margin-right:4px;">ข้อความที่ #${idx + 1}</strong>
+              <div class="time-input-wrap">
+                <span>เริ่ม (วินาที):</span>
+                <input type="number" step="0.1" min="0" value="${sub.start}"
+                       oninput="updateSubtitleField(${idx}, 'start', parseFloat(this.value) || 0)" />
+                <button class="mini-stamp-btn" title="ใช้เวลาจากแถบเล่นวิดีโอปัจจุบัน" onclick="stampCurrentTime(${idx}, 'start')">⏱ เวลาปัจจุบัน</button>
+              </div>
+              <span style="color:var(--muted);">ถึง</span>
+              <div class="time-input-wrap">
+                <span>สิ้นสุด (วินาที):</span>
+                <input type="number" step="0.1" min="0" value="${sub.end}"
+                       oninput="updateSubtitleField(${idx}, 'end', parseFloat(this.value) || 0)" />
+                <button class="mini-stamp-btn" title="ใช้เวลาจากแถบเล่นวิดีโอปัจจุบัน" onclick="stampCurrentTime(${idx}, 'end')">⏱ เวลาปัจจุบัน</button>
+              </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:6px;">
+              <select style="width:auto; padding:5px 8px; font-size:12px;"
+                      onchange="updateSubtitleField(${idx}, 'style', this.value)">
+                <option value="subtitle" ${sub.style === 'subtitle' ? 'selected' : ''}>💬 ซับไตเติ้ลด้านล่าง</option>
+                <option value="banner" ${sub.style === 'banner' ? 'selected' : ''}>🏷️ ป้ายกรอบข้อความ (เปิด/ปิดคลิป)</option>
+                <option value="center" ${sub.style === 'center' ? 'selected' : ''}>✨ ข้อความเด่นกลางจอ</option>
+              </select>
+              <button class="btn btn-light" style="padding:5px 10px; font-size:12px;" onclick="seekTo(${sub.start + 0.05})">▶ ดูช่วงนี้</button>
+              <button class="btn btn-danger" style="padding:5px 10px; font-size:12px;" onclick="removeSubtitleEntry(${idx})">✕ ลบ</button>
+            </div>
+          </div>
+
+          <div>
+            <textarea rows="2" placeholder="พิมพ์ข้อความที่นี่ (กด Enter เพื่อขึ้นบรรทัดใหม่ได้หลายบรรทัด)..."
+                      oninput="updateSubtitleField(${idx}, 'text', this.value)">${sub.text || ''}</textarea>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function addSubtitleEntry(customStart = null, customEnd = null, customStyle = 'subtitle', customText = '') {
+      let st = customStart;
+      if (st === null) {
+        st = SUBTITLES.length > 0 ? Number(SUBTITLES[SUBTITLES.length - 1].end) : 0.0;
+      }
+      let et = customEnd !== null ? customEnd : Math.min(PROJECT.duration, Number((st + 4.0).toFixed(1)));
+      if (et <= st) et = st + 3.0;
+
+      SUBTITLES.push({
+        id: 'sub_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+        start: Number(st.toFixed(1)),
+        end: Number(et.toFixed(1)),
+        style: customStyle,
+        text: customText
+      });
+      renderSubtitlesList();
+      drawFrame(CURRENT_TIME);
+    }
+
+    function addSubtitleAtCurrentTime() {
+      const st = Number(CURRENT_TIME.toFixed(1));
+      const et = Number(Math.min(PROJECT.duration, st + 4.0).toFixed(1));
+      addSubtitleEntry(st, et, 'subtitle', '');
+    }
+
+    function updateSubtitleField(idx, field, value) {
+      if (!SUBTITLES[idx]) return;
+      SUBTITLES[idx][field] = value;
+      drawFrame(CURRENT_TIME);
+    }
+
+    function stampCurrentTime(idx, field) {
+      if (!SUBTITLES[idx]) return;
+      SUBTITLES[idx][field] = Number(CURRENT_TIME.toFixed(1));
+      renderSubtitlesList();
+      drawFrame(CURRENT_TIME);
+    }
+
+    function removeSubtitleEntry(idx) {
+      SUBTITLES.splice(idx, 1);
+      renderSubtitlesList();
+      drawFrame(CURRENT_TIME);
+    }
+
+    function clearAllSubtitles() {
+      SUBTITLES = [];
+      renderSubtitlesList();
+      drawFrame(CURRENT_TIME);
+    }
+
+    function importBulkLines() {
+      const raw = document.getElementById('bulkLyricsInput').value || '';
+      const lines = raw.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+      if (lines.length === 0) {
+        alert('กรุณาพิมพ์หรือวางข้อความอย่างน้อย 1 บรรทัดครับ');
+        return;
+      }
+      const step = PROJECT.duration / lines.length;
+      lines.forEach((line, i) => {
+        const st = Number((i * step).toFixed(1));
+        const et = Number(((i + 1) * step - 0.1).toFixed(1));
+        SUBTITLES.push({
+          id: 'sub_' + Date.now() + '_' + i,
+          start: st,
+          end: Math.max(st + 0.5, et),
+          style: 'subtitle',
+          text: line
+        });
+      });
+      document.getElementById('bulkLyricsInput').value = '';
+      renderSubtitlesList();
+      drawFrame(CURRENT_TIME);
+    }
+
+    /* Client-Side Computer Vision AI Analyzer */
     function analyzeImageInBrowser(htmlImg) {
       const c = document.createElement('canvas');
       c.width = 48;
@@ -888,23 +1116,25 @@
       const data = cx.getImageData(0, 0, 48, 48).data;
       const hist = new Float32Array(24);
       const totalPx = 48 * 48;
+      let sumLum = 0;
       for (let i = 0; i < data.length; i += 4) {
         hist[Math.min(7, data[i] >> 5)] += 1 / totalPx;
         hist[8 + Math.min(7, data[i + 1] >> 5)] += 1 / totalPx;
         hist[16 + Math.min(7, data[i + 2] >> 5)] += 1 / totalPx;
+        sumLum += (data[i] + data[i + 1] + data[i + 2]) / 3;
       }
       const w = htmlImg.naturalWidth || 1080;
       const h = htmlImg.naturalHeight || 1080;
       const aspect = w / Math.max(1, h);
       const orientation = aspect > 1.15 ? 'landscape' : (aspect < 0.88 ? 'portrait' : 'square');
-      return { hist, orientation };
+      return { hist, orientation, brightness: sumLum / totalPx };
     }
 
     function runClientSideAI() {
       const n = PHOTOS.length;
       const metas = PHOTOS.map(p => {
         const im = IMG_CACHE.get(p.url);
-        return im ? analyzeImageInBrowser(im) : { hist: new Float32Array(24), orientation: 'landscape' };
+        return im ? analyzeImageInBrowser(im) : { hist: new Float32Array(24), orientation: 'landscape', brightness: 128 };
       });
 
       const allIds = PROJECT.transitions_catalog.map(t => t.id).filter(id => id !== 'cut');
@@ -920,15 +1150,13 @@
         let histDiff = 0;
         for (let b = 0; b < 24; b++) histDiff += Math.abs(curr.hist[b] - next.hist[b]);
 
-        const transTime = ((i + 1) / n) * PROJECT.duration;
-
         if (AI_MODE === 'dignified') {
           PHOTOS[i].transition = i % 3 === 0 ? 'ken_burns' : 'crossfade';
           PHOTOS[i].ai_reason = 'โหมดนุ่มนวลสุภาพ — ใช้การละลายภาพและซูมช้าๆ';
         } else if (AI_MODE === 'upbeat_march') {
           const cycle = ['slide_left', 'zoom_in', 'wipe_left', 'flash_white', 'slide_up', 'circle_open'];
           PHOTOS[i].transition = cycle[i % cycle.length];
-          PHOTOS[i].ai_reason = `โหมดคึกคัก — ใช้ ${PHOTOS[i].transition} เข้ากับจังหวะเพลง`;
+          PHOTOS[i].ai_reason = `โหมดคึกคัก — ใช้ ${PHOTOS[i].transition} เพิ่มความมีชีวิตชีวา`;
         } else if (AI_MODE === 'variety') {
           PHOTOS[i].transition = allIds[i % allIds.length];
           PHOTOS[i].ai_reason = `โหมดหลากหลาย — สลับเอฟเฟกต์ ${PHOTOS[i].transition}`;
@@ -936,23 +1164,19 @@
           if (histDiff > 0.72) {
             PHOTOS[i].transition = i % 2 === 0 ? 'fade_black' : 'circle_open';
             PHOTOS[i].ai_reason = 'AI พบว่าโทนสีและฉากเปลี่ยนไปชัดเจน — ใช้เอฟเฟกต์เปิดฉากใหม่';
-          } else if ((transTime >= 50 && transTime <= 70) || (transTime >= 138 && transTime <= 158)) {
-            PHOTOS[i].transition = i % 2 === 0 ? 'ken_burns' : 'crossfade';
-            PHOTOS[i].ai_reason = 'ตรงกับท่อนเพลงท่วงทำนองสง่างาม — AI แนะนำการซูมและละลายภาพนุ่มนวล';
-          } else if (transTime >= 90 && transTime <= 99) {
-            const solo = ['flash_white', 'zoom_in', 'circle_open', 'slide_left'];
-            PHOTOS[i].transition = solo[i % solo.length];
-            PHOTOS[i].ai_reason = 'ตรงกับช่วงดนตรีโซโล่คึกคัก — AI แนะนำเอฟเฟกต์เพิ่มความตื่นตา';
           } else if (histDiff < 0.34) {
             PHOTOS[i].transition = i % 2 === 0 ? 'slide_left' : 'wipe_left';
             PHOTOS[i].ai_reason = 'AI พบว่าภาพคู่นี้มีโทนสีใกล้เคียงกัน — แนะนำการสไลด์เพื่อให้เห็นการเปลี่ยนภาพชัดเจน';
           } else if (curr.orientation !== next.orientation) {
             PHOTOS[i].transition = next.orientation === 'landscape' ? 'zoom_out' : 'zoom_in';
             PHOTOS[i].ai_reason = 'สัดส่วนภาพเปลี่ยน (แนวตั้ง ↔ แนวนอน) — AI แนะนำการซูมรับมุมภาพใหม่';
+          } else if (Math.abs(curr.brightness - next.brightness) > 45) {
+            PHOTOS[i].transition = next.brightness > curr.brightness ? 'flash_white' : 'crossfade';
+            PHOTOS[i].ai_reason = 'ความสว่างของภาพเปลี่ยนชัดเจน — AI ปรับเอฟเฟกต์แสงให้กลมกลืน';
           } else {
             const opts = ['crossfade', 'ken_burns', 'slide_left', 'circle_open', 'slide_right'];
             PHOTOS[i].transition = opts[i % opts.length];
-            PHOTOS[i].ai_reason = 'AI เลือกเอฟเฟกต์ให้สมดุลกับองค์ประกอบภาพและจังหวะเพลง';
+            PHOTOS[i].ai_reason = 'AI วิเคราะห์องค์ประกอบภาพและเลือกเอฟเฟกต์ที่สมดุลต่อเนื่อง';
           }
         }
       }
@@ -970,7 +1194,7 @@
           const res = await fetch('/api/ai-recommend', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ mode: AI_MODE, images: PHOTOS }),
+            body: JSON.stringify({ mode: AI_MODE, images: PHOTOS, duration: PROJECT.duration }),
           });
           if (res.ok) {
             const data = await res.json();
@@ -999,19 +1223,6 @@
       testSingleTransition(0);
     }
 
-    function syncBanners() {
-      PROJECT.intro.enabled = document.getElementById('introEnabled').checked;
-      PROJECT.intro.line1 = document.getElementById('intro1').value;
-      PROJECT.intro.line2 = document.getElementById('intro2').value;
-      PROJECT.intro.line3 = document.getElementById('intro3').value;
-
-      PROJECT.outro.enabled = document.getElementById('outroEnabled').checked;
-      PROJECT.outro.line1 = document.getElementById('outro1').value;
-      PROJECT.outro.line2 = document.getElementById('outro2').value;
-      PROJECT.outro.line3 = document.getElementById('outro3').value;
-      drawFrame(CURRENT_TIME);
-    }
-
     function togglePlay() {
       if (PHOTOS.length === 0) {
         alert('กรุณาเลือกรูปภาพก่อนกดเล่นตัวอย่างครับ');
@@ -1020,12 +1231,16 @@
       TEST_ANIM = null;
       if (IS_PLAYING) {
         IS_PLAYING = false;
-        audioEl.pause();
-        document.getElementById('playBtn').textContent = '▶ เล่นตัวอย่างพร้อมเพลง';
+        if (HAS_AUDIO) audioEl.pause();
+        document.getElementById('playBtn').textContent = '▶ เล่นตัวอย่าง';
       } else {
+        if (CURRENT_TIME >= PROJECT.duration - 0.1) CURRENT_TIME = 0;
         IS_PLAYING = true;
-        audioEl.currentTime = CURRENT_TIME;
-        audioEl.play().catch(() => {});
+        LAST_PLAY_TICK = performance.now();
+        if (HAS_AUDIO) {
+          audioEl.currentTime = CURRENT_TIME;
+          audioEl.play().catch(() => {});
+        }
         document.getElementById('playBtn').textContent = '⏸ หยุดเล่น';
       }
     }
@@ -1034,7 +1249,7 @@
       TEST_ANIM = null;
       CURRENT_TIME = Math.max(0, Math.min(PROJECT.duration, Number(val) || 0));
       document.getElementById('scrubber').value = CURRENT_TIME;
-      audioEl.currentTime = CURRENT_TIME;
+      if (HAS_AUDIO) audioEl.currentTime = CURRENT_TIME;
       drawFrame(CURRENT_TIME);
     }
 
@@ -1122,21 +1337,61 @@
       }
     }
 
-    function drawCard(l1, l2, l3) {
+    function drawSubtitleItemOnCanvas(sub) {
+      const raw = (sub.text || '').trim();
+      if (!raw) return;
+      const lines = raw.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+      if (lines.length === 0) return;
+
       ctx.save();
-      ctx.fillStyle = 'rgba(14, 25, 45, 0.85)';
-      ctx.strokeStyle = 'rgba(255, 200, 70, 0.95)';
-      ctx.lineWidth = 3.5;
-      ctx.beginPath(); ctx.roundRect(110, 742, 1700, 296, 26); ctx.fill(); ctx.stroke();
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.font = '700 44px "Prompt", sans-serif'; ctx.fillStyle = '#ffc846'; ctx.fillText(l1 || '', 960, 815);
-      ctx.font = '600 40px "Prompt", sans-serif'; ctx.fillStyle = '#ffffff'; ctx.fillText(l2 || '', 960, 885);
-      ctx.font = '600 36px "Prompt", sans-serif'; ctx.fillStyle = '#a8e6ff'; ctx.fillText(l3 || '', 960, 955);
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      if (sub.style === 'banner') {
+        const boxH = Math.max(180, lines.length * 64 + 60);
+        const boxY = 1040 - boxH;
+        ctx.fillStyle = 'rgba(14, 25, 45, 0.86)';
+        ctx.strokeStyle = 'rgba(255, 200, 70, 0.95)';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.roundRect(120, boxY, 1680, boxH, 24);
+        ctx.fill();
+        ctx.stroke();
+
+        const startY = boxY + (boxH / 2) - ((lines.length - 1) * 32);
+        lines.forEach((ln, i) => {
+          ctx.font = i === 0 ? '700 44px "Prompt", sans-serif' : '600 38px "Prompt", sans-serif';
+          ctx.fillStyle = i === 0 ? '#ffc846' : (i === 1 ? '#ffffff' : '#a8e6ff');
+          ctx.fillText(ln, 960, startY + i * 64);
+        });
+      } else if (sub.style === 'center') {
+        const startY = 540 - ((lines.length - 1) * 38);
+        lines.forEach((ln, i) => {
+          ctx.font = '700 60px "Prompt", sans-serif';
+          ctx.lineWidth = 11;
+          ctx.strokeStyle = 'rgba(15, 23, 42, 0.92)';
+          ctx.fillStyle = i === 0 ? '#ffc846' : '#ffffff';
+          ctx.strokeText(ln, 960, startY + i * 76);
+          ctx.fillText(ln, 960, startY + i * 76);
+        });
+      } else {
+        // Default bottom subtitle (supports multi-line)
+        const baseBottom = 1015;
+        const lineHeight = 62;
+        const startY = baseBottom - ((lines.length - 1) * lineHeight);
+        lines.forEach((ln, i) => {
+          ctx.font = '700 50px "Prompt", sans-serif';
+          ctx.lineWidth = 9;
+          ctx.strokeStyle = '#0f172a';
+          ctx.fillStyle = '#ffffff';
+          ctx.strokeText(ln, 960, startY + i * lineHeight);
+          ctx.fillText(ln, 960, startY + i * lineHeight);
+        });
+      }
       ctx.restore();
     }
 
     function drawFrame(sec) {
-      if (!PROJECT) return;
       document.getElementById('timeLabel').textContent = `${fmt(sec)} / ${fmt(PROJECT.duration)}`;
 
       if (PHOTOS.length === 0) {
@@ -1165,26 +1420,12 @@
 
       renderTrans(curr, next, p, curr.transition);
 
-      if (PROJECT.intro.enabled && sec >= PROJECT.intro.start && sec <= PROJECT.intro.end) {
-        drawCard(PROJECT.intro.line1, PROJECT.intro.line2, PROJECT.intro.line3);
-      }
-      if (PROJECT.outro.enabled && sec >= PROJECT.outro.start && sec <= PROJECT.outro.end) {
-        drawCard(PROJECT.outro.line1, PROJECT.outro.line2, PROJECT.outro.line3);
-      }
-      if (document.getElementById('subEnabled').checked) {
-        const sub = PROJECT.subtitles.find(s => sec >= s.start && sec <= s.end);
-        if (sub && sub.text) {
-          ctx.save();
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'bottom';
-          ctx.font = '700 52px "Prompt", sans-serif';
-          ctx.lineWidth = 9; ctx.strokeStyle = '#0f172a';
-          ctx.fillStyle = sub.style === 'Note' ? '#a8e6ff' : '#ffffff';
-          ctx.strokeText(sub.text, 960, 1025);
-          ctx.fillText(sub.text, 960, 1025);
-          ctx.restore();
+      // Draw all active custom subtitles/text items at timestamp `sec`
+      SUBTITLES.forEach(sub => {
+        if (sec >= sub.start && sec <= sub.end) {
+          drawSubtitleItemOnCanvas(sub);
         }
-      }
+      });
 
       document.getElementById('statusBadge').textContent = `รูปที่ ${idx + 1}/${n} • ${curr.transition}`;
     }
@@ -1196,12 +1437,19 @@
         document.getElementById('statusBadge').textContent = `ตัวอย่าง Transition: ${TEST_ANIM.type}`;
         if (p >= 1) TEST_ANIM = null;
       } else if (IS_PLAYING || IS_BROWSER_RECORDING) {
-        CURRENT_TIME = audioEl.currentTime;
+        if (HAS_AUDIO && !audioEl.paused) {
+          CURRENT_TIME = audioEl.currentTime;
+        } else {
+          const dt = (now - LAST_PLAY_TICK) / 1000;
+          CURRENT_TIME += Math.max(0, Math.min(0.1, dt));
+        }
+        LAST_PLAY_TICK = now;
         document.getElementById('scrubber').value = CURRENT_TIME;
         drawFrame(CURRENT_TIME);
-        if (audioEl.ended || CURRENT_TIME >= PROJECT.duration) {
+
+        if ((HAS_AUDIO && audioEl.ended) || CURRENT_TIME >= PROJECT.duration) {
           IS_PLAYING = false;
-          document.getElementById('playBtn').textContent = '▶ เล่นตัวอย่างพร้อมเพลง';
+          document.getElementById('playBtn').textContent = '▶ เล่นตัวอย่าง';
         }
       }
       requestAnimationFrame(loop);
@@ -1219,7 +1467,7 @@
         activeRecorder.stop();
       }
       IS_BROWSER_RECORDING = false;
-      audioEl.pause();
+      if (HAS_AUDIO) audioEl.pause();
       document.getElementById('renderModal').classList.remove('open');
     }
 
@@ -1228,7 +1476,6 @@
         alert('กรุณากดเลือกรูปภาพอย่างน้อย 1 รูปก่อนสร้างวิดีโอครับ');
         return;
       }
-      syncBanners();
       document.getElementById('renderModal').classList.add('open');
       document.getElementById('renderDoneBtns').style.display = 'none';
       document.getElementById('renderBar').style.width = '3%';
@@ -1242,12 +1489,10 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               images: PHOTOS,
+              duration: PROJECT.duration,
               fade_duration: 0.6,
-              intro: PROJECT.intro,
-              outro: PROJECT.outro,
-              subtitles: PROJECT.subtitles,
-              subtitles_enabled: document.getElementById('subEnabled').checked,
-              output_filename: 'วิดีโอ_เพลงมาร์ช_อสม.mp4',
+              subtitles: SUBTITLES,
+              output_filename: 'vidmaker_output.mp4',
             }),
           });
           if (res.ok) {
@@ -1264,7 +1509,7 @@
                 if (st.output_url) {
                   const dl = document.getElementById('downloadLink');
                   dl.href = st.output_url;
-                  dl.download = 'วิดีโอ_เพลงมาร์ช_อสม.mp4';
+                  dl.download = 'vidmaker_output.mp4';
                 }
               }
             }, 900);
@@ -1273,7 +1518,6 @@
         } catch (_) {}
       }
 
-      // Browser-native Canvas + Audio Recorder for Vercel Cloud deployment
       startBrowserVideoExport();
     }
 
@@ -1281,18 +1525,20 @@
       const t0 = performance.now();
       const canvasStream = canvas.captureStream(30);
 
-      try {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-          mediaSourceNode = audioCtx.createMediaElementSource(audioEl);
-          streamDestNode = audioCtx.createMediaStreamDestination();
-          mediaSourceNode.connect(streamDestNode);
-          mediaSourceNode.connect(audioCtx.destination);
-        }
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const audioTrack = streamDestNode.stream.getAudioTracks()[0];
-        if (audioTrack) canvasStream.addTrack(audioTrack);
-      } catch (_) {}
+      if (HAS_AUDIO) {
+        try {
+          if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            mediaSourceNode = audioCtx.createMediaElementSource(audioEl);
+            streamDestNode = audioCtx.createMediaStreamDestination();
+            mediaSourceNode.connect(streamDestNode);
+            mediaSourceNode.connect(audioCtx.destination);
+          }
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+          const audioTrack = streamDestNode.stream.getAudioTracks()[0];
+          if (audioTrack) canvasStream.addTrack(audioTrack);
+        } catch (_) {}
+      }
 
       const mimeOptions = [
         'video/mp4;codecs=avc1,mp4a.40.2',
@@ -1324,7 +1570,7 @@
         const url = URL.createObjectURL(blob);
         const dl = document.getElementById('downloadLink');
         dl.href = url;
-        dl.download = `วิดีโอ_เพลงมาร์ช_อสม.${ext}`;
+        dl.download = `vidmaker_output.${ext}`;
         document.getElementById('renderBar').style.width = '100%';
         document.getElementById('renderPct').textContent = '100%';
         document.getElementById('renderMsg').textContent = '✅ สร้างไฟล์วิดีโอเสร็จเรียบร้อยแล้ว กดปุ่มดาวน์โหลดได้เลย!';
@@ -1332,29 +1578,32 @@
       };
 
       IS_BROWSER_RECORDING = true;
-      audioEl.currentTime = 0;
+      LAST_PLAY_TICK = performance.now();
       CURRENT_TIME = 0;
+      if (HAS_AUDIO) {
+        audioEl.currentTime = 0;
+        audioEl.play().catch(() => {});
+      }
       activeRecorder.start(500);
-      audioEl.play().catch(() => {});
 
       const recTimer = setInterval(() => {
         if (!IS_BROWSER_RECORDING) {
           clearInterval(recTimer);
           return;
         }
-        const pct = Math.min(99, Math.round((audioEl.currentTime / Math.max(1, PROJECT.duration)) * 100));
+        const pct = Math.min(99, Math.round((CURRENT_TIME / Math.max(1, PROJECT.duration)) * 100));
         const elapsed = ((performance.now() - t0) / 1000).toFixed(1);
         document.getElementById('renderBar').style.width = `${pct}%`;
         document.getElementById('renderPct').textContent = `${pct}%`;
         document.getElementById('renderElapsed').textContent = `${elapsed} วินาที`;
-        document.getElementById('renderMsg').textContent = `กำลังบันทึกวิดีโอพร้อมเสียงเพลง (${fmt(audioEl.currentTime)} / ${fmt(PROJECT.duration)})...`;
+        document.getElementById('renderMsg').textContent = `กำลังบันทึกวิดีโอ (${fmt(CURRENT_TIME)} / ${fmt(PROJECT.duration)})...`;
 
-        if (audioEl.ended || audioEl.currentTime >= PROJECT.duration - 0.15) {
+        if ((HAS_AUDIO && audioEl.ended) || CURRENT_TIME >= PROJECT.duration - 0.1) {
           clearInterval(recTimer);
           if (activeRecorder && activeRecorder.state === 'recording') {
             activeRecorder.stop();
           }
-          audioEl.pause();
+          if (HAS_AUDIO) audioEl.pause();
         }
       }, 400);
     }
